@@ -20,3 +20,9 @@ The stochastic indicator establishes a range with values indexed between 0 and 1
   - https://www.cmcmarkets.com/en/trading-guides/what-is-a-stochastic-indicator
 - <a id="3">[3]</a>Technical Analysis, Inc. "Lane's Stochastics," Page 2.
   - https://www.forexfactory.com/attachment/file/3499852
+ 
+ ## What is RSI (Relative Strength Index)?
+ RSI (Relative Strength Index) is a momentum indicator which identifys overbought & oversold condtions and provides buy & sell signals. RSI below 20% indicates extremely oversold conditions and serves as a signal to buy the security. RSI above 70% indicates extremely overbought conditions and serves as a signal to buy the security. RSI divergences serve as a good indicator to spot discrepancies between the price & momentum. When price is advancing on declining momentum, it;s a siganl to sell while when price is declining on increasing momentum, it's a signal to buy.  
+
+RSI  =100−[100/1+Average Gains/Average Loss]
+
