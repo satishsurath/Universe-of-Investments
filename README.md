@@ -2,17 +2,10 @@
 Fintech Project 2
 
 
-[PythonPrerequsites.md](PythonPrerequsites.md)
-
-### 1.4 Sign up for an IBKR Paper Trading Account
-[How to Sign Up for an Interactive Brokers Paper Trading Account](https://algotrading101.com/learn/interactive-brokers-paper-trading-demo/)
-
-
-
-### 1.5 Configure IBKR Trade Workstation API
-![IBKR TWS - Global Configration - API Settings](Images/IBKR-TWS-GlobalConfiguration-API-Settings.png)
-
-
+- [The What](Proposal.md)
+- [The How](Logic.md)
+- [Python Prerequsites](PythonPrerequsites.md)
+- [Interactive Brokers - Trade Workstation (TWS) - API Access](IBKR-TWS-API.md)
 
 
 
