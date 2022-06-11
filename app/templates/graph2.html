@@ -1,0 +1,31 @@
+{% extends "base2.html" %}
+
+{% block content %}
+
+<div class="mx-auto" >
+<h1>Hi, Welcome to "A Look On Millennial Investing"</h1>
+<h2>GDP per Capita Over Time</h2>
+<p>Make sure you spell it correctly with capital letter(s), e.g. United Kingdom</p>
+    <input type="text" id="fname" name="fname" onchange="cb(this.value)">
+    <div id="chart" class="chart"></div>
+    <div id="png_chart"></div>
+
+</div>
+
+<script type='text/javascript'>
+        function cb(selection) {
+            $.getJSON({
+                url: "/callback", data: { 'data': selection }, success: function (result) {
+                    Plotly.newPlot('chart', result, {});;
+                }
+            });
+        }
+    </script>
+
+<script type='text/javascript'>
+    cb("United Kingdom");
+    document.getElementById("fname").value = "United Kingdom";
+</script>
+
+
+{% endblock %}

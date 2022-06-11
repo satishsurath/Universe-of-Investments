@@ -1,0 +1,92 @@
+2022-06-11 13:13:06,580 ERROR: Exception on /callback4/getStock [GET] [in /Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py:1891]
+Traceback (most recent call last):
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/satishsurath/Developer/Universe-of-Investments/app/routes.py", line 95, in cb4
+    return alpaca_get_market_data(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
+  File "/Users/satishsurath/Developer/Universe-of-Investments/app/routes.py", line 140, in alpaca_get_market_data
+    api = REST(api_key1, api_secret_key1, api_version='v2')
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/alpaca_trade_api/rest.py", line 168, in __init__
+    self._key_id, self._secret_key, self._oauth = get_credentials(
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/alpaca_trade_api/common.py", line 84, in get_credentials
+    raise ValueError('Key ID must be given to access Alpaca trade API',
+ValueError: ('Key ID must be given to access Alpaca trade API', ' (env: APCA_API_KEY_ID)')
+2022-06-11 13:13:06,598 ERROR: Exception on /callback4/getStock [GET] [in /Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py:1891]
+Traceback (most recent call last):
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/satishsurath/Developer/Universe-of-Investments/app/routes.py", line 95, in cb4
+    return alpaca_get_market_data(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
+  File "/Users/satishsurath/Developer/Universe-of-Investments/app/routes.py", line 140, in alpaca_get_market_data
+    api = REST(api_key1, api_secret_key1, api_version='v2')
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/alpaca_trade_api/rest.py", line 168, in __init__
+    self._key_id, self._secret_key, self._oauth = get_credentials(
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/alpaca_trade_api/common.py", line 84, in get_credentials
+    raise ValueError('Key ID must be given to access Alpaca trade API',
+ValueError: ('Key ID must be given to access Alpaca trade API', ' (env: APCA_API_KEY_ID)')
+2022-06-11 13:13:06,611 ERROR: Exception on /callback4/getStock [GET] [in /Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py:1891]
+Traceback (most recent call last):
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/satishsurath/Developer/Universe-of-Investments/app/routes.py", line 95, in cb4
+    return alpaca_get_market_data(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
+  File "/Users/satishsurath/Developer/Universe-of-Investments/app/routes.py", line 140, in alpaca_get_market_data
+    api = REST(api_key1, api_secret_key1, api_version='v2')
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/alpaca_trade_api/rest.py", line 168, in __init__
+    self._key_id, self._secret_key, self._oauth = get_credentials(
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/alpaca_trade_api/common.py", line 84, in get_credentials
+    raise ValueError('Key ID must be given to access Alpaca trade API',
+ValueError: ('Key ID must be given to access Alpaca trade API', ' (env: APCA_API_KEY_ID)')
+2022-06-11 13:13:06,625 ERROR: Exception on /callback4/getReturn [GET] [in /Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py:1891]
+Traceback (most recent call last):
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/satishsurath/Developer/Universe-of-Investments/app/routes.py", line 101, in cb4
+    return mcforecast_get_data(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
+  File "/Users/satishsurath/Developer/Universe-of-Investments/app/routes.py", line 163, in mcforecast_get_data
+    api = REST(api_key1, api_secret_key1, api_version='v2')
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/alpaca_trade_api/rest.py", line 168, in __init__
+    self._key_id, self._secret_key, self._oauth = get_credentials(
+  File "/Users/satishsurath/opt/anaconda3/envs/ibkr/lib/python3.9/site-packages/alpaca_trade_api/common.py", line 84, in get_credentials
+    raise ValueError('Key ID must be given to access Alpaca trade API',
+ValueError: ('Key ID must be given to access Alpaca trade API', ' (env: APCA_API_KEY_ID)')

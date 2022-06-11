@@ -26,3 +26,5 @@ The stochastic indicator establishes a range with values indexed between 0 and 1
 
 RSI  =100−[100/1+Average Gains/Average Loss]
 
+
+https://www.investopedia.com/terms/s/stochasticoscillator.asp#:~:text=A%20stochastic%20oscillator%20is%20a,moving%20average%20of%20the%20result

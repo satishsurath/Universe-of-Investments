@@ -1,0 +1,564 @@
+{% extends "base2.html" %}
+
+{% block head %}
+{{super()}}
+    <script>
+        async function callback_portfolio() {
+            let Period = '1y';
+            let Interval = '1d';
+            let Portfolio = document.getElementById('portfolio').value;
+            if (Portfolio == 'Portfolio1') {
+                let Stock1 = 'BRK-B';
+                let Stock2 = 'T';
+                let Stock3 = 'VYM';
+                let Stock4 = 'PG';
+                let Stock5 = 'VNQ';
+                let pageTitle = document.getElementById('portfolioType');
+                pageTitle.innerHTML = "Portfolio 1: Low Risk (Beta < 1): BRK.B, T, VYM, PG and VNQ"
+                let name = document.getElementById('alert');
+                name.innerHTML = "Selected Portfolio is: " + Portfolio + "<br> with the following Stocks " + Stock1 + ", " + Stock2 + ", " + Stock3  + ", " + Stock4  + ", " + Stock5 + ". <br>Please allow for upto 60 secs for the data to load";
+                
+            let response1 = await fetch("/callback2/getStock?data=" + Stock1 + "&period=" + Period + "&interval=" + Interval);    
+            let response2 = await fetch("/callback2/getStock?data=" + Stock2 + "&period=" + Period + "&interval=" + Interval);
+            let response3 = await fetch("/callback2/getStock?data=" + Stock3 + "&period=" + Period + "&interval=" + Interval);
+            let response4 = await fetch("/callback2/getStock?data=" + Stock4 + "&period=" + Period + "&interval=" + Interval);                
+            let response5 = await fetch("/callback2/getStock?data=" + Stock5 + "&period=" + Period + "&interval=" + Interval);
+                
+            if (response1.ok) {
+                let chartJson1 = await response1.json();
+                if (response1.ok) {
+                    response1 = await fetch("/callback2/getInfo?data=" + Stock1);
+                    let infoJson1 = await response1.json();
+                    info1(infoJson1);
+                    Plotly.newPlot('chart1', chartJson1, {});
+                } else {
+                    alert("HTTP-Error: " + response1.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response1.status + "on getStock");
+            }
+            if (response2.ok) {
+                let chartJson2 = await response2.json();
+                if (response2.ok) {
+                    response2 = await fetch("/callback2/getInfo?data=" + Stock2);
+                    let infoJson2 = await response2.json();
+                    info2(infoJson2);
+                    Plotly.newPlot('chart2', chartJson2, {});
+                } else {
+                    alert("HTTP-Error: " + response2.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response2.status + "on getStock");
+            }
+
+            if (response3.ok) {
+                let chartJson3 = await response3.json();
+                if (response3.ok) {
+                    response3 = await fetch("/callback2/getInfo?data=" + Stock3);
+                    let infoJson3 = await response3.json();
+                    info3(infoJson3);
+                    Plotly.newPlot('chart3', chartJson3, {});
+                } else {
+                    alert("HTTP-Error: " + response3.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response3.status + "on getStock");
+            }
+                
+             if (response4.ok) {
+                let chartJson4 = await response4.json();
+                if (response4.ok) {
+                    response4 = await fetch("/callback2/getInfo?data=" + Stock4);
+                    let infoJson4 = await response4.json();
+                    info4(infoJson4);
+                    Plotly.newPlot('chart4', chartJson4, {});
+                } else {
+                    alert("HTTP-Error: " + response4.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response4.status + "on getStock");
+            }
+                
+            if (response5.ok) {
+                let chartJson5 = await response5.json();
+                if (response5.ok) {
+                    response5 = await fetch("/callback2/getInfo?data=" + Stock5);
+                    let infoJson5 = await response5.json();
+                    info5(infoJson5);
+                    Plotly.newPlot('chart5', chartJson5, {});
+                } else {
+                    alert("HTTP-Error: " + response5.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response5.status + "on getStock");
+            }
+            
+            }
+            
+            if (Portfolio == 'Portfolio2') {
+                let Stock1 = 'DND.TO';
+                let Stock2 = 'MSFT';
+                let Stock3 = 'BRK-B';
+                let Stock4 = 'VYM';
+                let Stock5 = 'U';  
+                let pageTitle = document.getElementById('portfolioType');
+                pageTitle.innerHTML = "Portfolio 2: Balanced Risk:  (Beta ≈ 1): DND, MSFT, BRK.B, VYM and U"
+                let name = document.getElementById('alert');
+                name.innerHTML = "Selected Portfolio is: " + Portfolio + "<br> with the following Stocks " + Stock1 + ", " + Stock2 + ", " + Stock3  + ", " + Stock4  + ", " + Stock5 + ". <br>Please allow for upto 60 secs for the data to load";
+                
+            let response1 = await fetch("/callback2/getStock?data=" + Stock1 + "&period=" + Period + "&interval=" + Interval);    
+            let response2 = await fetch("/callback2/getStock?data=" + Stock2 + "&period=" + Period + "&interval=" + Interval);
+            let response3 = await fetch("/callback2/getStock?data=" + Stock3 + "&period=" + Period + "&interval=" + Interval);
+            let response4 = await fetch("/callback2/getStock?data=" + Stock4 + "&period=" + Period + "&interval=" + Interval);                
+            let response5 = await fetch("/callback2/getStock?data=" + Stock5 + "&period=" + Period + "&interval=" + Interval);
+            if (response1.ok) {
+                let chartJson1 = await response1.json();
+                if (response1.ok) {
+                    response1 = await fetch("/callback2/getInfo?data=" + Stock1);
+                    let infoJson1 = await response1.json();
+                    info1(infoJson1);
+                    Plotly.newPlot('chart1', chartJson1, {});
+                } else {
+                    alert("HTTP-Error: " + response1.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response1.status + "on getStock");
+            }
+            if (response2.ok) {
+                let chartJson2 = await response2.json();
+                if (response2.ok) {
+                    response2 = await fetch("/callback2/getInfo?data=" + Stock2);
+                    let infoJson2 = await response2.json();
+                    info2(infoJson2);
+                    Plotly.newPlot('chart2', chartJson2, {});
+                } else {
+                    alert("HTTP-Error: " + response2.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response2.status + "on getStock");
+            }
+
+            if (response3.ok) {
+                let chartJson3 = await response3.json();
+                if (response3.ok) {
+                    response3 = await fetch("/callback2/getInfo?data=" + Stock3);
+                    let infoJson3 = await response3.json();
+                    info3(infoJson3);
+                    Plotly.newPlot('chart3', chartJson3, {});
+                } else {
+                    alert("HTTP-Error: " + response3.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response3.status + "on getStock");
+            }
+                
+                         if (response4.ok) {
+                let chartJson4 = await response4.json();
+                if (response4.ok) {
+                    response4 = await fetch("/callback2/getInfo?data=" + Stock4);
+                    let infoJson4 = await response4.json();
+                    info4(infoJson4);
+                    Plotly.newPlot('chart4', chartJson4, {});
+                } else {
+                    alert("HTTP-Error: " + response4.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response4.status + "on getStock");
+            }
+                
+            if (response5.ok) {
+                let chartJson5 = await response5.json();
+                if (response5.ok) {
+                    response5 = await fetch("/callback2/getInfo?data=" + Stock5);
+                    let infoJson5 = await response5.json();
+                    info5(infoJson5);
+                    Plotly.newPlot('chart5', chartJson5, {});
+                } else {
+                    alert("HTTP-Error: " + response5.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response5.status + "on getStock");
+            }    
+                
+            }
+
+            if (Portfolio == 'Portfolio3') {
+                let Stock1 = 'STNE';
+                let Stock2 = 'U';
+                let Stock3 = 'SPOT';
+                let Stock4 = 'BROS';
+                let Stock5 = 'BARK'; 
+                let pageTitle = document.getElementById('portfolioType');
+                pageTitle.innerHTML = "Portfolio 3: High Risk: (Beta > 1): STNE, U, SPOT, BROS and BARK"                
+                let name = document.getElementById('alert');
+                name.innerHTML = "Selected Portfolio is: " + Portfolio + "<br> with the following Stocks " + Stock1 + ", " + Stock2 + ", " + Stock3  + ", " + Stock4  + ", " + Stock5 + ". <br>Please allow for upto 60 secs for the data to load";
+                
+            let response1 = await fetch("/callback2/getStock?data=" + Stock1 + "&period=" + Period + "&interval=" + Interval);    
+            let response2 = await fetch("/callback2/getStock?data=" + Stock2 + "&period=" + Period + "&interval=" + Interval);
+            let response3 = await fetch("/callback2/getStock?data=" + Stock3 + "&period=" + Period + "&interval=" + Interval);
+            let response4 = await fetch("/callback2/getStock?data=" + Stock4 + "&period=" + Period + "&interval=" + Interval);                
+            let response5 = await fetch("/callback2/getStock?data=" + Stock5 + "&period=" + Period + "&interval=" + Interval);
+            if (response1.ok) {
+                let chartJson1 = await response1.json();
+                if (response1.ok) {
+                    response1 = await fetch("/callback2/getInfo?data=" + Stock1);
+                    let infoJson1 = await response1.json();
+                    info1(infoJson1);
+                    Plotly.newPlot('chart1', chartJson1, {});
+                } else {
+                    alert("HTTP-Error: " + response1.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response1.status + "on getStock");
+            }
+            if (response2.ok) {
+                let chartJson2 = await response2.json();
+                if (response2.ok) {
+                    response2 = await fetch("/callback2/getInfo?data=" + Stock2);
+                    let infoJson2 = await response2.json();
+                    info2(infoJson2);
+                    Plotly.newPlot('chart2', chartJson2, {});
+                } else {
+                    alert("HTTP-Error: " + response2.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response2.status + "on getStock");
+            }
+
+            if (response3.ok) {
+                let chartJson3 = await response3.json();
+                if (response3.ok) {
+                    response3 = await fetch("/callback2/getInfo?data=" + Stock3);
+                    let infoJson3 = await response3.json();
+                    info3(infoJson3);
+                    Plotly.newPlot('chart3', chartJson3, {});
+                } else {
+                    alert("HTTP-Error: " + response3.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response3.status + "on getStock");
+            }
+                
+                if (response4.ok) {
+                let chartJson4 = await response4.json();
+                if (response4.ok) {
+                    response4 = await fetch("/callback2/getInfo?data=" + Stock4);
+                    let infoJson4 = await response4.json();
+                    info4(infoJson4);
+                    Plotly.newPlot('chart4', chartJson4, {});
+                } else {
+                    alert("HTTP-Error: " + response4.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response4.status + "on getStock");
+            }
+                
+            if (response5.ok) {
+                let chartJson5 = await response5.json();
+                if (response5.ok) {
+                    response5 = await fetch("/callback2/getInfo?data=" + Stock5);
+                    let infoJson5 = await response5.json();
+                    info5(infoJson5);
+                    Plotly.newPlot('chart5', chartJson5, {});
+                } else {
+                    alert("HTTP-Error: " + response5.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response5.status + "on getStock");
+            }    
+                
+            }
+            
+
+            
+        }
+        
+        function info1(json) {
+            let name = document.getElementById('companyName1');
+            name.innerHTML = json.shortName;
+            name = document.getElementById('symbol1');
+            name.innerHTML = json.symbol;
+            name = document.getElementById('dayHigh1');
+            name.innerHTML = json.dayHigh;
+            name = document.getElementById('dayLow1');
+            name.innerHTML = json.dayLow;
+            name = document.getElementById('52WeekHigh1');
+            name.innerHTML = json.fiftyTwoWeekHigh;            
+            name = document.getElementById('52WeekLow1');
+            name.innerHTML = json.fiftyTwoWeekLow;
+            if (json.beta) {
+                name = document.getElementById('beta1');
+                name.innerHTML = json.beta;            
+            }
+            else
+            {
+                name = document.getElementById('beta1');
+                name.innerHTML = json.beta3Year;    
+            }   
+        }
+        
+        function info2(json) {
+            let name = document.getElementById('companyName2');
+            name.innerHTML = json.shortName;
+            name = document.getElementById('symbol2');
+            name.innerHTML = json.symbol;
+            name = document.getElementById('dayHigh2');
+            name.innerHTML = json.dayHigh;
+            name = document.getElementById('dayLow2');
+            name.innerHTML = json.dayLow;
+            name = document.getElementById('52WeekHigh2');
+            name.innerHTML = json.fiftyTwoWeekHigh;            
+            name = document.getElementById('52WeekLow2');
+            name.innerHTML = json.fiftyTwoWeekLow;
+            if (json.beta) {
+                name = document.getElementById('beta2');
+                name.innerHTML = json.beta;            
+            }
+            else
+            {
+                name = document.getElementById('beta2');
+                name.innerHTML = json.beta3Year;    
+            }              
+        }
+        
+        function info3(json) {
+            let name = document.getElementById('companyName3');
+            name.innerHTML = json.shortName;
+            name = document.getElementById('symbol3');
+            name.innerHTML = json.symbol;
+            name = document.getElementById('dayHigh3');
+            name.innerHTML = json.dayHigh;
+            name = document.getElementById('dayLow3');
+            name.innerHTML = json.dayLow;
+            name = document.getElementById('52WeekHigh3');
+            name.innerHTML = json.fiftyTwoWeekHigh;            
+            name = document.getElementById('52WeekLow3');
+            name.innerHTML = json.fiftyTwoWeekLow;
+            if (json.beta) {
+                name = document.getElementById('beta3');
+                name.innerHTML = json.beta;            
+            }
+            else
+            {
+                name = document.getElementById('beta3');
+                name.innerHTML = json.beta3Year;    
+            }   
+        }
+        
+                function info4(json) {
+            let name = document.getElementById('companyName4');
+            name.innerHTML = json.shortName;
+            name = document.getElementById('symbol4');
+            name.innerHTML = json.symbol;
+            name = document.getElementById('dayHigh4');
+            name.innerHTML = json.dayHigh;
+            name = document.getElementById('dayLow4');
+            name.innerHTML = json.dayLow;
+            name = document.getElementById('52WeekHigh4');
+            name.innerHTML = json.fiftyTwoWeekHigh;            
+            name = document.getElementById('52WeekLow4');
+            name.innerHTML = json.fiftyTwoWeekLow;
+            if (json.beta) {
+                name = document.getElementById('beta4');
+                name.innerHTML = json.beta;            
+            }
+            else
+            {
+                name = document.getElementById('beta4');
+                name.innerHTML = json.beta3Year;    
+            }   
+        }
+        
+                function info5(json) {
+            let name = document.getElementById('companyName5');
+            name.innerHTML = json.shortName;
+            name = document.getElementById('symbol5');
+            name.innerHTML = json.symbol;
+            name = document.getElementById('dayHigh5');
+            name.innerHTML = json.dayHigh;
+            name = document.getElementById('dayLow5');
+            name.innerHTML = json.dayLow;
+            name = document.getElementById('52WeekHigh5');
+            name.innerHTML = json.fiftyTwoWeekHigh;            
+            name = document.getElementById('52WeekLow5');
+            name.innerHTML = json.fiftyTwoWeekLow;
+            if (json.beta) {
+                name = document.getElementById('beta5');
+                name.innerHTML = json.beta;            
+            }
+            else
+            {
+                name = document.getElementById('beta5');
+                name.innerHTML = json.beta3Year;    
+            }   
+        }
+                async function callback() {
+            let Stock = document.getElementById('stock').value;
+            let Period = document.getElementById('period').value;
+            let Interval = document.getElementById('interval').value;
+            let response = await fetch("/callback2/getStock?data=" + Stock + "&period=" + Period + "&interval=" + Interval);
+            if (response.ok) {
+                let chartJson = await response.json();
+                if (response.ok) {
+                    response = await fetch("/callback2/getInfo?data=" + Stock);
+                    let infoJson = await response.json();
+                    info(infoJson);
+                    Plotly.newPlot('chart', chartJson, {});
+                } else {
+                    alert("HTTP-Error: " + response.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response.status + "on getStock");
+            }
+        }
+        function info(json) {
+            let name = document.getElementById('companyName');
+            name.innerHTML = json.shortName;
+            name = document.getElementById('symbol');
+            name.innerHTML = json.symbol;
+            name = document.getElementById('dayHigh');
+            name.innerHTML = json.dayHigh;
+            name = document.getElementById('dayLow');
+            name.innerHTML = json.dayLow;
+            name = document.getElementById('52WeekHigh');
+            name.innerHTML = json.fiftyTwoWeekHigh;            
+            name = document.getElementById('52WeekLow');
+            name.innerHTML = json.fiftyTwoWeekLow;
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+
+<h1 id="portfolioType" style="text-align: center;">Please select the Portfolio of choice</h1>
+
+<div class="container">
+    <div class="row">
+            <div class="col text-light bg-dark" style="margin:20px 0px 20px 0px">
+                <h2 style="padding:20px 0px 20px 0px">Portfolio Graphs</h2>
+            </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-9">
+                <select id="portfolio" class="form-select" aria-label="Select" )>
+                    <option selected value="Portfolio1"> Portfolio 1: Low Risk (Beta < 1): BRK.B, T, VYM, PG and VNQ</option>
+                    <option value="Portfolio2">Portfolio 2: Balanced Risk:  (Beta ≈ 1): DND, MSFT, BRK.B, VYM and U</option>
+                    <option value="Portfolio3">Portfolio 3: High Risk: (Beta > 1): STNE, U, SPOT, BROS and BARK</option>                             
+                </select>
+        </div>
+        <div class="col-3">
+                <button type="button" class="btn btn-primary" onclick="callback_portfolio()">Fetch Portfolio</button>
+        </div>
+        <div class="col-12"> <span id="alert" style="color:red"> </span> </div>
+    </div>
+    <div class="row">
+        <div class="row">
+            <div class="col-3"><p><b>Stock info 1</b></p>
+                <p>Symbol: <span id="symbol1">N/A</span></p>
+                <p>Day High: <span id="dayHigh1">N/A</span></p>
+                <p>Day Low: <span id="dayLow1">N/A</span></p> 
+                <p>52-Week High: <span id="52WeekHigh1">N/A</span></p>
+                <p>52-Week Low: <span id="52WeekLow1">N/A</span></p> 
+                <p class="hovertext" data-hover="Beta is a concept that measures the expected move in a stock relative to movements in the overall market.">Beta: <span id="beta1">N/A</span></p>                
+            </div>
+            <div class="col-9">
+                <h2 id="companyName1"></h2>
+                <div id="chart1" class="chart" style="height: 300px;border: 1px solid; 
+                    box-shadow: 5px 5px 5px #888888;">
+                    <br>
+                </div>
+            </div>  
+        </div>
+        <div class="row">
+            <div class="col-3"><p><b>Stock info 2</b></p>
+                <p>Symbol: <span id="symbol2">N/A</span></p>
+                <p>Day High: <span id="dayHigh2">N/A</span></p>
+                <p>Day Low: <span id="dayLow2">N/A</span></p> 
+                <p>52-Week High: <span id="52WeekHigh2">N/A</span></p>
+                <p>52-Week Low: <span id="52WeekLow2">N/A</span></p>                
+                <p class="hovertext" data-hover="Beta is a concept that measures the expected move in a stock relative to movements in the overall market.">Beta: <span id="beta2">N/A</span></p>
+            </div>
+            <div class="col-9">
+                <h2 id="companyName2"></h2>
+                <div id="chart2" class="chart" style="height: 300px;border: 1px solid; 
+                    box-shadow: 5px 5px 5px #888888;">
+                <br>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3"><p><b>Stock info 3</b></p>
+                <p>Symbol: <span id="symbol3">N/A</span></p>
+                <p>Day High: <span id="dayHigh3">N/A</span></p>
+                <p>Day Low: <span id="dayLow3">N/A</span></p> 
+                <p>52-Week High: <span id="52WeekHigh3">N/A</span></p>
+                <p>52-Week Low: <span id="52WeekLow3">N/A</span></p> 
+                <p class="hovertext" data-hover="Beta is a concept that measures the expected move in a stock relative to movements in the overall market.">Beta: <span id="beta3">N/A</span></p>                
+            </div>
+            <div class="col-9">
+                <h2 id="companyName3"></h2>
+                <div id="chart3" class="chart" style="height: 300px;border: 1px solid; 
+                    box-shadow: 5px 5px 5px #888888;">
+                <br>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3"><p><b>Stock info 4</b></p>
+                <p>Symbol: <span id="symbol4">N/A</span></p>
+                <p>Day High: <span id="dayHigh4">N/A</span></p>
+                <p>Day Low: <span id="dayLow4">N/A</span></p> 
+                <p>52-Week High: <span id="52WeekHigh4">N/A</span></p>
+                <p>52-Week Low: <span id="52WeekLow4">N/A</span></p> 
+                <p class="hovertext" data-hover="Beta is a concept that measures the expected move in a stock relative to movements in the overall market.">Beta: <span id="beta4">N/A</span></p>                
+            </div>
+            <div class="col-9">
+                <h2 id="companyName4"></h2>
+                <div id="chart4" class="chart" style="height: 300px;border: 1px solid; 
+                    box-shadow: 5px 5px 5px #888888;">
+                <br>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3"><p><b>Stock info 5</b></p>
+                <p>Symbol: <span id="symbol5">N/A</span></p>
+                <p>Day High: <span id="dayHigh5">N/A</span></p>
+                <p>Day Low: <span id="dayLow5">N/A</span></p> 
+                <p>52-Week High: <span id="52WeekHigh5">N/A</span></p>
+                <p>52-Week Low: <span id="52WeekLow5">N/A</span></p> 
+                <p class="hovertext" data-hover="Beta is a concept that measures the expected move in a stock relative to movements in the overall market.">Beta: <span id="beta5">N/A</span></p>                
+            </div>
+            <div class="col-9">
+                <h2 id="companyName5"></h2>
+                <div id="chart5" class="chart" style="height: 300px;border: 1px solid; 
+                    box-shadow: 5px 5px 5px #888888;">
+                <br>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">            
+        <div class="col-12" style="font-size:smaller;padding:10px;text-align: right;">
+                <i>The data is, to the best of our knowledge, correct but cannot be guarenteed to be so</i>
+                <br/>
+                <i>This site is for educational and demonstation purposes, only</i>
+            </div>    
+    </div>
+
+</div>
+
+    <script>callback_portfolio();</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'bootstrap/base.html' %}
+{% block scripts %}
+    {{ moment.include_moment() }}
+{% endblock %}
+
+{% block head %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+<link rel="manifest" href="/static/site.webmanifest">
+<link rel="mask-icon" href="/static/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<style>
+
+.test {
+    
+    display:none;
+     top: 30px; 
+     left: 10px;
+    background: orange;
+    padding: 5px;
+    border: 1px solid black;
+}
+.maindiv {
+  display:inline;
+}
+.maindiv:hover .test {
+  display:inline-block;
+  background-color:#d4dbef;  
+}
+    
+    img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+    
+body {
+    background-image: url({{ url_for('static', filename='bg-y-line.png') }});
+  background-repeat: repeat;
+}
+    
+</style>
+
+{% endblock %}
+
+{% block title %}
+        {% if title %}
+        {{ title }} - "A look on millennial investing"
+        {% else %}
+        Home Page - "A look on millennial investing"
+        {% endif %}
+{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="vertical-align:middle;">
+    <div class="container-fluid">
+    <b>
+          <a class="navbar-brand" href="{{ url_for('index') }}" style="vertical-align:middle;">
+    <img src="static/favicon-32x32.png" width="30" height="30" class="d-inline-block" alt="">
+    A look on millennial investing
+  </a></b>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+    <span class="navbar-toggler-icon"></span>
+  </button>
+     
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('return_portfolio_all') }}">Returns: Overall Portfolio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('return_portfolio') }}">Portfolio: Individual Stock</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('education') }}">Education: Learn</a></li> 
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('career') }}">Careers</a></li> 
+        
+
+    </ul>
+  </div>
+        </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container" >
+        {# application content needs to be provided in the app_content block #}
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}

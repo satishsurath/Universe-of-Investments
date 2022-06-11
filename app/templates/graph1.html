@@ -1,0 +1,17 @@
+{% extends "base2.html" %}
+
+{% block content %}
+
+<div class="mx-auto" >
+
+<h1>Hi, Welcome to "A Look On Millennial Investing"</h1>
+<h2>Hello Plotly (but not Dash)</h2>
+<div id='chart' class='chart'></div>
+</div>
+
+<script type='text/javascript'>
+  var graphs = {{graphJSON | safe}};
+  Plotly.plot('chart',graphs,{});
+</script>
+
+{% endblock %}

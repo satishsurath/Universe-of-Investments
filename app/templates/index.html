@@ -1,0 +1,74 @@
+{% extends "base2.html" %}
+
+
+{% block content %}
+<div class="container">
+     <div class="row">
+            <div class="col text-light bg-dark" style="margin:20px 0px 20px 0px">
+                <h2 style="padding:20px 0px 20px 0px;text-align: center;" id="portfolioType">A Look On Millennial Investing</h2>
+            </div>
+        
+    </div>
+    
+    <div class="row">
+Welcome, Awesome things are brewing behind the scenes
+<br><br>
+    We have used recommendations from industry experts to curate 3 Portfolios to match our Millennial Investors<br> 
+    Find one that best resonates with you.<br><br><br>
+    </div>
+                 <div class="row" style="text-align: center;">
+ <div class="col-4"><h4> 
+                           Low Risk 
+     <img src="{{ url_for('static', filename='LowRisk.png') }}">
+            </h4> </div>                                                                   
+ <div class="col-4"> <h4>                                                           
+                    Balanced
+     <img src="{{ url_for('static', filename='BalancedRisk.png') }}">
+   </h4>  </div>
+ <div class="col-4"> <h4>                                                           
+     High Risk
+     <img src="{{ url_for('static', filename='HighRisk.png') }}">
+            </h4></div>
+            </div>   
+        
+        <div class="row" >
+ <div class="col-4"><h4 style="text-align: center;"> 
+                            Portfolio 1:</h4><br> <p style="margin-left:30px;">Low Volatility 
+             <div class="maindiv">
+   
+<span class="test">Beta is a concept that measures the expected move in a stock relative to movements in the overall market.<a href='/Educate-Yourself#beta' target="_blank">Read More</a></span>
+                <p style=" text-decoration: underline;margin-left:30px;background:#d4dbef;" data-hover=""> (Beta < 1) </p></div> 
+     
+     
+     <ul><li style="margin-left:30px;">BRK.B<li style="margin-left:30px;">T<li style="margin-left:30px;">VYM<li style="margin-left:30px;">PG<li style="margin-left:30px;">VNQ</ul>
+        </p>  </div>                                                                   
+ <div class="col-4"> <h4 style="text-align: center;">                                                           
+                    Portfolio 2:</h4><br> <p style="margin-left:30px;">Balanced Volatility: 
+                  <div class="maindiv">
+   
+<span class="test">Beta is a concept that measures the expected move in a stock relative to movements in the overall market.<a href='/Educate-Yourself#beta' target="_blank">Read More</a></span>
+                <p style=" text-decoration: underline;margin-left:30px;background:#d4dbef;" data-hover=""> (Beta ≈ 1) </p></div> 
+     <ul><li style="margin-left:30px;">VOO<li style="margin-left:30px;">MSFT<li style="margin-left:30px;">BRK.B<li style="margin-left:30px;">VYM<li style="margin-left:30px;">U</ul>
+    </p> </div>
+ <div class="col-4">    <h4 style="text-align: center;">                                                        
+     Portfolio 3:</h4><br> <p style="margin-left:30px;">High Volatility:
+                  <div class="maindiv">
+   
+<span class="test">Beta is a concept that measures the expected move in a stock relative to movements in the overall market.<a href='/Educate-Yourself#beta' target="_blank">Read More</a></span>
+                <p style=" text-decoration: underline;margin-left:30px;background:#d4dbef;" data-hover=""> (Beta > 1) </p></div>      
+     <ul><li style="margin-left:30px;">STNE <li style="margin-left:30px;">U <li style="margin-left:30px;">SPOT <li style="margin-left:30px;">BROS <li style="margin-left:30px;">BARK</ul>
+            </p></div>
+            </div>
+            
+
+<br>
+You can check out the Visualization, Portfolio Details and Monte-Carlo Simulations Based Portfolio Prediciton in the pages below:<br>  
+    <ul>
+                    <li><a href="{{ url_for('return_portfolio_all') }}">Returns: Overall Portfolio</a></li>
+                    <li><a href="{{ url_for('return_portfolio') }}">Returns: Individual Stock</a></li>
+    </ul>
+    </div>
+    </div>
+
+{% endblock %}
+
