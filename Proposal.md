@@ -36,5 +36,5 @@ Future iteration: optimizing returns with options trading
 
 
 ## Reference:
-(Stochastics: An Accurate Buy and Sell Indicator)[https://www.investopedia.com/articles/technical/073001.asp]
+- [Stochastics: An Accurate Buy and Sell Indicator](https://www.investopedia.com/articles/technical/073001.asp)
 
