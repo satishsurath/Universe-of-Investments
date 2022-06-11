@@ -11,8 +11,4 @@ Fintech Project 2
 
 ## References:
 
-- https://ib-insync.readthedocs.io/index.html
-  - Library to make working with Interactive Broker TWS API easier using linear style of programming;
-- https://github.com/erdewit/nest_asyncio
-  - This fixes the "RuntimeError: This event loop is already running".
 - [Stochastics: An Accurate Buy and Sell Indicator](https://www.investopedia.com/articles/technical/073001.asp)

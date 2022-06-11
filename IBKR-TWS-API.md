@@ -7,3 +7,10 @@
 
 ### 1.5 Configure IBKR Trade Workstation API
 ![IBKR TWS - Global Configration - API Settings](Images/IBKR-TWS-GlobalConfiguration-API-Settings.png)
+
+## References:
+
+- https://ib-insync.readthedocs.io/index.html
+  - Library to make working with Interactive Broker TWS API easier using linear style of programming;
+- https://github.com/erdewit/nest_asyncio
+  - This fixes the "RuntimeError: This event loop is already running".
