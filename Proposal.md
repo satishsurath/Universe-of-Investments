@@ -13,7 +13,10 @@ Joanna Dizon
 ## Title: Discover a Universe of Investment
 
 
+
 ## Data Source: Trading Platform (Alapaca or API Selection) / CSV – Fred
+
+
 
 
 ## Technology (ML):
@@ -30,3 +33,8 @@ Recommended Model Portfolio (other asset classes : equity, crypto)
 Classification with Data Visualization 
 Trading API to execute the trades (buy, hold, sell) 
 Future iteration: optimizing returns with options trading
+
+
+## Reference:
+(Stochastics: An Accurate Buy and Sell Indicator)[https://www.investopedia.com/articles/technical/073001.asp]
+
