@@ -7,7 +7,7 @@ Fintech Project 2
 ```shell
 pip install pandas_ta
 pip install yfinance
-pip install 
+pip install mplfinance
 conda install -c conda-forge ta-lib
 ```
 
