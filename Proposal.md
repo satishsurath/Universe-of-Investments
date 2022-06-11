@@ -4,35 +4,28 @@
 
 
 ## Group #11
-Satish Surath
-Vanessa Teran
-Ritwik Thakar
-Joanna Dizon
+- Satish Surath
+- Vanessa Teran
+- Ritwik Thakar
+- Joanna Dizon
 
 
 ## Title: Discover a Universe of Investment
 
 
 
-## Data Source: Trading Platform (Alapaca or API Selection) / CSV – Fred
-
-
-
+## Data Source: 
+Trading Platform (Alapaca or API Selection) / Yahoo Finance
 
 ## Technology (ML):
-Classification model 
-Macroeconomic model as factor – variables will predict which portfolios. 
+Deep Learning: Identify chat patterns. 
+Models: Secuential model / LSTM (Long Short Term Memory) / Bense Model (add data to into the neural networks with the purpose of identifying chart patterns and predicting future patterns)  
+RSI (Relatives Strenght Index) - 
+
 
 
 ## Delivery:
-Financial Goals: Time Horizon (3 types of horizons) , Investment Amount, Frequency, Income 
-Scoring: Assign risk measurements (low, medium, high) - based on data collected previously. 
-Output:
-MVP (Minimum Viable Product)
-Recommended Model Portfolio (other asset classes : equity, crypto) 
-Classification with Data Visualization 
-Trading API to execute the trades (buy, hold, sell) 
-Future iteration: optimizing returns with options trading
+Flash Web App
 
 
 ## Reference:
