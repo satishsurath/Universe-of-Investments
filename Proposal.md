@@ -4,10 +4,10 @@
 
 
 ## Group #11
-Satish Surath
-Vanessa Teran
-Ritwik Thakar
-Joanna Dizon
+- Satish Surath
+- Vanessa Teran
+- Ritwik Thakar
+- Joanna Dizon
 
 
 ## Title: Discover a Universe of Investment
