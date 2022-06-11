@@ -108,3 +108,19 @@ pip install nest_asyncio
 
 ```
 
+
+
+### 1.4 Install Python packages needed for Flask Web Application
+```shell
+pip install flask
+pip install requests 
+pip install flask_migrate
+pip install flask_sqlalchemy
+pip install flask_mail
+pip install flask_bootstrap
+pip install flask_moment
+pip install flask_babel
+pip install flask_wtf
+pip install jwt
+pip install email_validator
+```
