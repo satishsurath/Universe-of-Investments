@@ -13,6 +13,9 @@ class IBapi(EWrapper, EClient):
     def historicalData(self, reqId, bar):
         print(f'Time: {bar.date} Close: {bar.close}')
         self.data.append([bar.date, bar.close])
+    def wshMetaData(self, reqId: int, dataJson: str):
+        super().wshMetaData(reqId, dataJson)
+        print("WshMetaData.", "ReqId:", reqId, "Data JSON:", dataJson)
 		
 def run_loop():
 	app.run()
@@ -33,11 +36,19 @@ eurusd_contract.secType = 'CASH'
 eurusd_contract.exchange = 'IDEALPRO'
 eurusd_contract.currency = 'USD'
 
+apple_contract = Contract()
+apple_contract.symbol = 'XLF'
+apple_contract.secType = 'STK'
+apple_contract.exchange = 'SMART'
+apple_contract.currency = 'USD'
+
 #Request historical candles
-app.reqHistoricalData(1, eurusd_contract, '', '2 D', '1 hour', 'BID', 0, 2, False, [])
+#app.reqHistoricalData(1, eurusd_contract, '', '2 D', '1 hour', 'BID', 0, 2, False, [])
+#app.reqHistoricalData(1, apple_contract, '', False, False, [])
+app.reqHistoricalData(1, apple_contract, '', '10 Y', '1 hour', 'BID', 0, 2, False, [])
 
 time.sleep(5) #sleep to allow enough time for data to be returned
 df = pandas.DataFrame(app.data, columns=['DateTime', 'Close'])
 df['DateTime'] = pandas.to_datetime(df['DateTime'],unit='s') 
-print(df)
+print(df.shape)
 app.disconnect()
