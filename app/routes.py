@@ -48,51 +48,17 @@ api_key1=os.getenv("ALPACA_API_KEY")
 # Create the Alpaca API object
 api_secret_key1=os.getenv("ALPACA_SECRET_KEY")
 
-#Used for GDP Graph
-@app.route('/callback', methods=['POST', 'GET'])
-def cb():
-    return gm_gdp(request.args.get('data'))
 
 @app.route('/')
 @app.route('/index')
 def index():
     return render_template('index.html', title='Home')
 
-@app.route('/new')
-def new():
-    return render_template('new.html', title='New')
     
-    
-
-    
-@app.route('/callback2/<endpoint>')
+@app.route('/callback/<endpoint>')
 def cb2(endpoint):   
     if endpoint == "getStock":
         return gm(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
-    elif endpoint == "getInfo":
-        stock = request.args.get('data')
-        st = yf.Ticker(stock)
-        return json.dumps(st.info)
-    else:
-        return "Bad endpoint", 400
-    
-@app.route('/callback3/<endpoint>')
-def cb3(endpoint):   
-    if endpoint == "getStock":
-        return alpaca_get_market_data(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
-    elif endpoint == "getInfo":
-        stock = request.args.get('data')
-        st = yf.Ticker(stock)
-        return json.dumps(st.info)
-    elif endpoint == "getReturn":
-        return mcforecast_get_data(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
-    else:
-        return "Bad endpoint", 400
-    
-@app.route('/callback4/<endpoint>')
-def cb4(endpoint):   
-    if endpoint == "getStock":
-        return alpaca_get_market_data(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
     elif endpoint == "getInfo":
         stock = request.args.get('data')
         st = yf.Ticker(stock)
@@ -105,6 +71,7 @@ def cb4(endpoint):
         return mcforecast_get_portfolio_cumulative_return(request.args.get('stock1'),request.args.get('stock2'),request.args.get('stock3'),request.args.get('stock4'),request.args.get('stock5'))
     else:
         return "Bad endpoint", 400
+    
     
 # Return the JSON data for the Plotly graph
 def gm(stock,period, interval):
