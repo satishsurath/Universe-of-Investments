@@ -13,7 +13,7 @@
             if (response.ok) {
                 let chartJson = await response.json();
                 if (response.ok) {
-                    response = await fetch("/callback2/getInfo?data=" + Stock);
+                    response = await fetch("/callback/getInfo?data=" + Stock);
                     let infoJson = await response.json();
                     info(infoJson);
                     Plotly.newPlot('chart', chartJson, {});
