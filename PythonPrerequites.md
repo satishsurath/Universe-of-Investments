@@ -119,6 +119,7 @@ pip install flask_sqlalchemy
 pip install flask_mail
 pip install flask_bootstrap
 pip install flask_moment
+pip install flask_login
 pip install flask_babel
 pip install flask_wtf
 pip install jwt

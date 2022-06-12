@@ -51,9 +51,9 @@ body {
 
 {% block title %}
         {% if title %}
-        {{ title }} - "A look on millennial investing"
+        {{ title }} - "Universe of Investment"
         {% else %}
-        Home Page - "A look on millennial investing"
+        Home Page - "Universe of Investment"
         {% endif %}
 {% endblock %}
 {% block navbar %}
@@ -62,7 +62,7 @@ body {
     <b>
           <a class="navbar-brand" href="{{ url_for('index') }}" style="vertical-align:middle;">
     <img src="static/favicon-32x32.png" width="30" height="30" class="d-inline-block" alt="">
-    A look on millennial investing
+    Universe of Investment
   </a></b>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 
@@ -72,9 +72,13 @@ body {
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+                    <!-- 
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('return_portfolio_all') }}">Returns: Overall Portfolio</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('return_portfolio') }}">Portfolio: Individual Stock</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('education') }}">Education: Learn</a></li> 
+                    
+                    -->
+                    
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('career') }}">Careers</a></li> 
         
 
