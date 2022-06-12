@@ -1,8 +1,8 @@
 # Universe-of-Investments
 Fintech Project 2
 
-- [What](Proposal.md)
-- [How](Logic.md)
+- [What: The Purpose](Purpose.md)
+- [How: The Logic](Logic.md)
 - [Python Prerequsites](PythonPrerequsites.md)
 - [Interactive Brokers - Trade Workstation (TWS) - API Access](IBKR-TWS-API.md)
 
