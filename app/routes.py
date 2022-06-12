@@ -6,6 +6,7 @@ from app import app, db
 from app.models import User
 from flask import request
 from datetime import datetime
+import datetime as dt
 
 from app.forms import RegistrationForm
 from app.forms import LoginForm
@@ -22,7 +23,9 @@ import pandas as pd
 import json
 import plotly
 import plotly.express as px
-
+import matplotlib.pyplot as plt
+import plotly.tools as tls
+from matplotlib.lines import Line2D
 
 #Adding import yfinance as 
 import yfinance as yf
@@ -58,7 +61,8 @@ def index():
 @app.route('/callback/<endpoint>')
 def cb2(endpoint):   
     if endpoint == "getStock":
-        return gm(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
+        #return gm(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
+        return new_SO_Plot(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
     elif endpoint == "getInfo":
         stock = request.args.get('data')
         st = yf.Ticker(stock)
@@ -95,6 +99,65 @@ def add_stochastic_oscillator(df, periods=14):
     return copy
 #dfso = add_stochastic_oscillator(df, periods=14)
 
+today = dt.datetime.now()
+
+date_pattern = "%Y-%m-%d"
+today_str = today.strftime(date_pattern)
+date_ranges = {
+    "1M": (today - dt.timedelta(days=30)).strftime(date_pattern),
+    "3M": (today - dt.timedelta(days=90)).strftime(date_pattern),
+    "6M": (today - dt.timedelta(days=180)).strftime(date_pattern),
+    "1Y": (today - dt.timedelta(days=365)).strftime(date_pattern),
+    "2Y": (today - dt.timedelta(days=2*365)).strftime(date_pattern),
+}
+
+
+def plot_stochastic_oscillator(dfso, ticker, rng, periods=14):
+    start = date_ranges[rng]
+    end = today_str
+    temp_df = dfso[start:end]
+    
+    fig, ax = plt.subplots(nrows=2, ncols=1, sharex=True, tight_layout=True, figsize=(12, 10))
+
+    ax[0].set_title(f"{ticker} price, {rng}")
+    ax[0].plot(temp_df["Close"], color="tab:blue")
+
+    ax[1].set_title(f"{ticker} Stochastic Oscillator ({periods}-day period), {rng}")
+    ax[1].set_ylim(-10, 110)
+    ax[1].plot(temp_df["K"], color="tab:blue") # fast
+    ax[1].plot(temp_df["D"], color="tab:orange") # slow
+
+    ax[1].axhline(80, color="tab:red", ls="--")
+    ax[1].axhline(20, color="tab:green", ls="--")
+
+    custom_lines = [
+        Line2D([0], [0], color="tab:blue", lw=4),
+        Line2D([0], [0], color="tab:orange", lw=4),
+        Line2D([0], [0], color="tab:red", lw=4),
+        Line2D([0], [0], color="tab:green", lw=4),
+    ]
+    ax[1].legend(custom_lines, ["K", "D", "Overbought", "Oversold"], loc="best")
+    plotly_fig = tls.mpl_to_plotly(fig)
+    return fig
+
+#plot_stochastic_oscillator(dfso, ticker, "6M")
+
+def new_SO_Plot(stock,period, interval):
+    start = dt.datetime.today()-dt.timedelta(360)
+    end = dt.datetime.today()
+    s = dt.datetime.today()-dt.timedelta(90)
+    e = dt.datetime.today()
+    st = dt.datetime.today()-dt.timedelta(2)
+    ed = dt.datetime.today()
+    ticker = stock
+    df = yf.download(stock, start, end)
+    #df.head()
+    dfso = add_stochastic_oscillator(df, periods=14)
+    fig_stock = plot_stochastic_oscillator(dfso, ticker, "6M")
+    plotly_fig = tls.mpl_to_plotly(fig_stock)
+    graphJSON_stock = json.dumps(plotly_fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON_stock
+    
 # Return the JSON data for the Plotly graph
 def gm(stock,period, interval):
     st = yf.Ticker(stock)
@@ -114,6 +177,9 @@ def gm(stock,period, interval):
         hover_data=("Symbol","Open","Close","Volume"), 
         range_y=(min,max), template="seaborn", title=chart_title )
 
+
+    
+    
     # Create a JSON representation of the graph
     graphJSON_stock = json.dumps(fig_stock, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON_stock
