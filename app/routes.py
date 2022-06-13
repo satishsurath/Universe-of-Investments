@@ -22,7 +22,6 @@ from app.forms import ResetPasswordForm
 import pandas as pd
 import json
 import plotly
-import panel as pn
 import plotly.express as px
 import matplotlib.pyplot as plt
 import plotly.tools as tls
@@ -94,8 +93,6 @@ def RSI(df, n=14):
 
 def plotly_stochastic_oscillator(dfso, ticker, rng, periods=14):
     data = dfso.copy()
-    data['Oversold'] = 20
-    data['Overbought'] = 80
     fig_so= make_subplots(rows=2, cols=1)
     fig_so.append_trace(
         go.Candlestick(
@@ -134,8 +131,6 @@ def plotly_stochastic_oscillator(dfso, ticker, rng, periods=14):
     )
     # Update options and show plot
     fig_so.update_layout(layout)
-    # Create Columns
-    sto_ind = pn.Column(fig_so)
     return fig_so
 
 
@@ -143,20 +138,20 @@ def plotly_stochastic_oscillator(dfso, ticker, rng, periods=14):
 
 #function stochastic_oscillator
 def add_stochastic_oscillator(df, periods=14):
-    copy = df.copy()
-    high_roll = copy["High"].rolling(periods).max()
-    low_roll = copy["Low"].rolling(periods).min()
+    df_return = df.copy()
+    high_roll = df_return["High"].rolling(periods).max()
+    low_roll = df_return["Low"].rolling(periods).min()
     # Fast stochastic indicator
-    num = copy["Adj Close"] - low_roll
+    num = df_return["Adj Close"] - low_roll
     denom = high_roll - low_roll
-    copy["K"] = (num / denom) * 100
+    df_return["K"] = (num / denom) * 100
     # Slow stochastic indicator
-    copy["D"] = copy["K"].rolling(3).mean()   
-    return copy
-#dfso = add_stochastic_oscillator(df, periods=14)
+    df_return["D"] = df_return["K"].rolling(3).mean()
+    df_return['Oversold'] = 20
+    df_return['Overbought'] = 80
+    return df_return
 
 today = dt.datetime.now()
-
 date_pattern = "%Y-%m-%d"
 today_str = today.strftime(date_pattern)
 date_ranges = {
@@ -167,36 +162,6 @@ date_ranges = {
     "2Y": (today - dt.timedelta(days=2*365)).strftime(date_pattern),
 }
 
-
-def plot_stochastic_oscillator(dfso, ticker, rng, periods=14):
-    start = date_ranges[rng]
-    end = today_str
-    temp_df = dfso[start:end]
-    
-    fig, ax = plt.subplots(nrows=2, ncols=1, sharex=True, tight_layout=True, figsize=(12, 10))
-
-    ax[0].set_title(f"{ticker} price, {rng}")
-    ax[0].plot(temp_df["Close"], color="tab:blue")
-
-    ax[1].set_title(f"{ticker} Stochastic Oscillator ({periods}-day period), {rng}")
-    ax[1].set_ylim(-10, 110)
-    ax[1].plot(temp_df["K"], color="tab:blue") # fast
-    ax[1].plot(temp_df["D"], color="tab:orange") # slow
-
-    ax[1].axhline(80, color="tab:red", ls="--")
-    ax[1].axhline(20, color="tab:green", ls="--")
-
-    custom_lines = [
-        Line2D([0], [0], color="tab:blue", lw=4),
-        Line2D([0], [0], color="tab:orange", lw=4),
-        Line2D([0], [0], color="tab:red", lw=4),
-        Line2D([0], [0], color="tab:green", lw=4),
-    ]
-    ax[1].legend(custom_lines, ["K", "D", "Overbought", "Oversold"], loc="best")
-    plotly_fig = tls.mpl_to_plotly(fig)
-    return fig
-
-#plot_stochastic_oscillator(dfso, ticker, "6M")
 
 def new_SO_Plot(stock,period, interval):
     start = dt.datetime.today()-dt.timedelta(360)
@@ -210,36 +175,10 @@ def new_SO_Plot(stock,period, interval):
     #df.head()
     dfso = add_stochastic_oscillator(df, periods=14)
     fig_stock = plotly_stochastic_oscillator(dfso, ticker, "6M")
-    #plotly_fig = tls.mpl_to_plotly(fig_stock)
-    #graphJSON_stock = json.dumps(plotly_fig, cls=plotly.utils.PlotlyJSONEncoder)
     graphJSON_stock = json.dumps(fig_stock, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON_stock
     
-# Return the JSON data for the Plotly graph
-def gm(stock,period, interval):
-    st = yf.Ticker(stock)
-    # Create a line graph
-    df_stock = st.history(period=(period), interval=interval)
-    df_stock=  df_stock.reset_index()
-    df_stock.columns = ['Date-Time']+list(df_stock.columns[1:])
-    df_stock.loc[:,'Symbol'] = stock
-    max = (df_stock['Close'].max())
-    min = (df_stock['Close'].min())
-    range = max - min
-    margin = range * 0.05
-    max = max + margin
-    min = min - margin
-    chart_title = "Stock Data for " + stock
-    fig_stock = px.area(df_stock, x='Date-Time', y="Open",
-        hover_data=("Symbol","Open","Close","Volume"), 
-        range_y=(min,max), template="seaborn", title=chart_title )
 
-
-    
-    
-    # Create a JSON representation of the graph
-    graphJSON_stock = json.dumps(fig_stock, cls=plotly.utils.PlotlyJSONEncoder)
-    return graphJSON_stock
 
 
 def alpaca_get_market_data(stock,period, interval):
