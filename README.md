@@ -1,4 +1,9 @@
 # Universe-of-Investments
+
+[![nomadic-me - Universe-of-Investments](https://img.shields.io/static/v1?label=nomadic-me&message=Universe-of-Investments&color=blue&logo=github)](https://github.com/nomadic-me/Universe-of-Investments "Go to GitHub repo")
+[![stars - Universe-of-Investments](https://img.shields.io/github/stars/nomadic-me/Universe-of-Investments?style=social)](https://github.com/nomadic-me/Universe-of-Investments)
+[![forks - Universe-of-Investments](https://img.shields.io/github/forks/nomadic-me/Universe-of-Investments?style=social)](https://github.com/nomadic-me/Universe-of-Investments)
+
 Fintech Project 2
 
 - [What: The Purpose](Purpose.md)
