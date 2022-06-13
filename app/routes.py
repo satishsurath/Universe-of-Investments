@@ -119,6 +119,7 @@ def plotly_stochastic_oscillator(dfso, ticker, rng, periods=14):
         font_family='Monospace',
         font_color='#000000',
         font_size=20,
+        title="Trading Indicator: Stochastic Oscillator",
         xaxis=dict(
             rangeslider=dict(
                 visible=False
