@@ -124,4 +124,5 @@ pip install flask_babel
 pip install flask_wtf
 pip install jwt
 pip install email_validator
+pip install panel
 ```
