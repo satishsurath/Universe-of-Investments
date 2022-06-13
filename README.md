@@ -3,6 +3,7 @@ Fintech Project 2
 
 - [What: The Purpose](Purpose.md)
 - [How: The Logic](Logic.md)
+- [Who: The Team](Team.md)
 - [Python Prerequsites](PythonPrerequsites.md)
 - [Interactive Brokers - Trade Workstation (TWS) - API Access](IBKR-TWS-API.md)
 
