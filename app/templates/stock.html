@@ -5,8 +5,10 @@
     <script>
         async function callback() {
             var config_responsive = {responsive: true}
+            graphNotLoaded = 1;
+            countDownDate = new Date().getTime();
             let name = document.getElementById('alert');
-            name.innerHTML = "Please allow for upto 60 secs for the data to load - This Message will disappear once we finish loading everything";
+            name.innerHTML = "Please allow for upto 10 secs for the data to load - This Message will disappear once we finish loading everything";
             let Stock = document.getElementById('stock').value;
             let Period = document.getElementById('period').value;
             let Interval = document.getElementById('interval').value;
@@ -18,6 +20,7 @@
                     let infoJson = await response.json();
                     info(infoJson);
                     Plotly.newPlot('chart', chartJson, {}, config_responsive);
+                    graphNotLoaded = 0;
                 } else {
                     alert("HTTP-Error: " + response.status + "on getInfo");
                 }
@@ -130,7 +133,13 @@
                 <div class="col-3"><p>52-Week High: <span id="52WeekHigh">N/A</span></p></div>
                <div class="col-3"> <p>52-Week Low: <span id="52WeekLow">N/A</span></p> </div>
         </div>
+                  <div class="row">
         <div class="col-12" style="text-align: center;"> <br> <h5 id="alert" style="color:red"> Alert Message: [Placeholder] </h5> </div>
+            </div>
+      <div class="row">
+          <div class="col-6" style="text-align: left;color:#999" id="graph_counter"> </div>   
+          <div class="col-6" style="text-align: left;color:#aaa" id="page_counter"> </div>             
+      </div>
         </div>
         <div class="row">
             <div class="col-12">
@@ -148,7 +157,38 @@
         </div>
     </div>
 
-    <script>callback();</script>
+    <script>
+        
+        callback();
+
+// Set the date we're counting down to
+var countDownDate = new Date().getTime();
+var graphNotLoaded = 1;
+// Update the count down every 1 second
+var x = setInterval(function() 
+        {
+              // Get today's date and time
+              var now = new Date().getTime();
+
+              // Find the distance between now and the count down date
+              var distance = now - countDownDate;
+
+              // Time calculations for days, hours, minutes and seconds
+              var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+              var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+              var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+              // Display the result in the element with id="demo"
+              document.getElementById("page_counter").innerHTML = "Since Page Load / Fetch: " + minutes + "m " + seconds + "s ";
+            if (graphNotLoaded)
+            {
+                document.getElementById("graph_counter").innerHTML = "Time for Graph to Load: " + minutes + "m " + seconds + "s ";
+            }
+        }, 1000);
+
+
+</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
         crossorigin="anonymous"></script>
