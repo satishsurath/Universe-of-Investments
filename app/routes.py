@@ -94,6 +94,8 @@ def RSI(df, n=14):
 
 def plotly_stochastic_oscillator(dfso, ticker, rng, periods=14):
     data = dfso.copy()
+    data['Oversold'] = 20
+    data['Overbought'] = 80
     fig_so= make_subplots(rows=2, cols=1)
     fig_so.append_trace(
         go.Candlestick(
@@ -111,6 +113,10 @@ def plotly_stochastic_oscillator(dfso, ticker, rng, periods=14):
                              line = dict(color='blue', width=2)), row = 2, col = 1)
     fig_so.append_trace(go.Scatter(x=data.index, y=data['D'], name='D',
                              line = dict(color='red', width=2)), row = 2, col = 1)
+    fig_so.append_trace(go.Scatter(x=data.index, y=data['Oversold'], name='Oversold',
+                         line = dict(color='green', width=2, dash='dash')), row = 2, col = 1)
+    fig_so.append_trace(go.Scatter(x=data.index, y=data['Overbought'], name='Overbought',
+                         line = dict(color='red', width=2, dash='dash')), row = 2, col = 1)
     # Make it pretty
     layout = go.Layout(
         height=1000, #width=1000,
