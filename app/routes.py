@@ -22,10 +22,14 @@ from app.forms import ResetPasswordForm
 import pandas as pd
 import json
 import plotly
+import panel as pn
 import plotly.express as px
 import matplotlib.pyplot as plt
 import plotly.tools as tls
 from matplotlib.lines import Line2D
+from panel.interact import interact
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 
 #Adding import yfinance as 
 import yfinance as yf
@@ -84,6 +88,51 @@ def RSI(df, n=14):
     df["rs"] = df["avgGain"]/df["avgLoss"]
     df["rsi"] = 100 - (100/ (1 + df["rs"]))
     return df
+
+
+
+
+def plotly_stochastic_oscillator(dfso, ticker, rng, periods=14):
+    data = dfso.copy()
+    fig_so= make_subplots(rows=2, cols=1)
+    fig_so.append_trace(
+        go.Candlestick(
+            x=data.index,
+            open=data['Open'],
+            high=data['High'],
+            low=data['Low'],
+            close=data['Adj Close'],
+            increasing_line_color='green',
+            decreasing_line_color='red',
+            showlegend=False
+        ), row=1, col=1
+    )
+    fig_so.append_trace(go.Scatter(x=data.index, y=data['K'], name='K',
+                             line = dict(color='blue', width=2)), row = 2, col = 1)
+    fig_so.append_trace(go.Scatter(x=data.index, y=data['D'], name='D',
+                             line = dict(color='red', width=2)), row = 2, col = 1)
+    # Make it pretty
+    layout = go.Layout(
+        height=1000, width=1000,
+        plot_bgcolor='#EFEFEF',
+        # Font Families
+        font_family='Monospace',
+        font_color='#000000',
+        font_size=20,
+        xaxis=dict(
+            rangeslider=dict(
+                visible=False
+            )
+        )
+    )
+    # Update options and show plot
+    fig_so.update_layout(layout)
+    # Create Columns
+    sto_ind = pn.Column(fig_so)
+    return fig_so
+
+
+
 
 #function stochastic_oscillator
 def add_stochastic_oscillator(df, periods=14):
@@ -153,9 +202,10 @@ def new_SO_Plot(stock,period, interval):
     df = yf.download(stock, start, end)
     #df.head()
     dfso = add_stochastic_oscillator(df, periods=14)
-    fig_stock = plot_stochastic_oscillator(dfso, ticker, "6M")
-    plotly_fig = tls.mpl_to_plotly(fig_stock)
-    graphJSON_stock = json.dumps(plotly_fig, cls=plotly.utils.PlotlyJSONEncoder)
+    fig_stock = plotly_stochastic_oscillator(dfso, ticker, "6M")
+    #plotly_fig = tls.mpl_to_plotly(fig_stock)
+    #graphJSON_stock = json.dumps(plotly_fig, cls=plotly.utils.PlotlyJSONEncoder)
+    graphJSON_stock = json.dumps(fig_stock, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON_stock
     
 # Return the JSON data for the Plotly graph
