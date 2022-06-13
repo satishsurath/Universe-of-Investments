@@ -113,7 +113,7 @@ def plotly_stochastic_oscillator(dfso, ticker, rng, periods=14):
                              line = dict(color='red', width=2)), row = 2, col = 1)
     # Make it pretty
     layout = go.Layout(
-        height=1000, width=1000,
+        height=1000, #width=1000,
         plot_bgcolor='#EFEFEF',
         # Font Families
         font_family='Monospace',

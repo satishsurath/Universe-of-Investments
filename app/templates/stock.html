@@ -4,6 +4,7 @@
 {{super()}}
     <script>
         async function callback() {
+            var config_responsive = {responsive: true}
             let name = document.getElementById('alert');
             name.innerHTML = "Please allow for upto 60 secs for the data to load - This Message will disappear once we finish loading everything";
             let Stock = document.getElementById('stock').value;
@@ -16,7 +17,7 @@
                     response = await fetch("/callback/getInfo?data=" + Stock);
                     let infoJson = await response.json();
                     info(infoJson);
-                    Plotly.newPlot('chart', chartJson, {});
+                    Plotly.newPlot('chart', chartJson, {}, config_responsive);
                 } else {
                     alert("HTTP-Error: " + response.status + "on getInfo");
                 }
@@ -117,16 +118,17 @@
             <div class="w-100" style="padding:10px;text-align:right;font-size: small;">
                 <i>Note: not all intervals are valid for all periods</i>
             </div>
-            <div class="col-3"><p><b>Stock info</b></p>
-                <p>Symbol: <span id="symbol">N/A</span></p>
-                <p>Day High: <span id="dayHigh">N/A</span></p>
-                <p>Day Low: <span id="dayLow">N/A</span></p> 
-                <p>52-Week High: <span id="52WeekHigh">N/A</span></p>
-                <p>52-Week Low: <span id="52WeekLow">N/A</span></p> 
-            </div>
-            <div class="col-9">
+            <div class="col-2"><p><b>Stock info</b></p> </div>
+                <div class="col-2"><p>Symbol: <span id="symbol">N/A</span></p></div>
+                <div class="col-2"><p>Day High: <span id="dayHigh">N/A</span></p></div>
+                <div class="col-2"><p>Day Low: <span id="dayLow">N/A</span></p> </div>
+                <div class="col-2"><p>52-Week High: <span id="52WeekHigh">N/A</span></p></div>
+               <div class="col-2"> <p>52-Week Low: <span id="52WeekLow">N/A</span></p> </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
                 <h2 id="companyName"></h2>
-                <div id="chart" class="chart" style="height: 300px;border: 1px solid; 
+                <div id="chart" class="chart" style="border: 1px solid; 
                     box-shadow: 5px 5px 5px #888888;">
                 </div>
             </div>
