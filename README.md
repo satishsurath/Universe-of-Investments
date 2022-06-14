@@ -13,7 +13,7 @@ Fintech Project 2
 - [Interactive Brokers - Trade Workstation (TWS) - API Access](IBKR-TWS-API.md)
 
 
-
+![Homagepage](Images/Homepage2022-06-13-15.55.11.png)]
 ## References:
 
 - [Stochastics: An Accurate Buy and Sell Indicator](https://www.investopedia.com/articles/technical/073001.asp)
