@@ -2,7 +2,19 @@
 
 # Logic:
 
+## Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy
 
+### Buy
+
+- If Stock price > 200 Day Simple Moving Avergae & PSAR Dot below candle, buy.
+- If Stock price > 200 Day Simple Moving Avergae & PSAR Dot above candle, exit buy position (Not a signal to sell short).
+
+### Sell
+
+- If Stock price < 200 Day Simple Moving Avergae & PSAR Dot above candle, short sell.
+- If Stock price < 200 Day Simple Moving Avergae & PSAR Dot below candle, exit short position (Not a signal to buy).
+ 
+ 
 ## Source:
 - [Stochastics: An Accurate Buy and Sell Indicator](https://www.investopedia.com/articles/technical/073001.asp)
 
