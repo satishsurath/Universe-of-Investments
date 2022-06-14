@@ -2,7 +2,26 @@
 
 # Logic:
 
+## Trend Confirmation
+- If 200 period moving average > 50 period moving average >21 period moving average >9 Period Moving Average, Price is in uptrend and anticipate corrections
+- If 200 period moving average < 50 period moving average <21 period moving average <9 Period Moving Average, Price is in downtrend and anticipate reversals
 
+
+## Trading Rules
+
+### Buy
+
+- If Value of VIX is less than 18, look at the dots on the Parabolic Stop & Reverse.
+- If the dot on PSAR is below the candle, slowk line > slowd and Momentum on Stochastic Oscillators is under 20, buy.
+- If the dot on PSAR is above the candle, slowk line < slowd and Momentum on Stochastic Oscillators is over 80, sell.
+
+### Sell
+
+- If Value of VIX is greater than 30, look at the dots on the Parabolic Stop & Reverse.
+- If the dot on PSAR is below the candle, slowk line > slowd and Momentum on Stochastic Oscillators is under 20, buy.
+- If the dot on PSAR is above the candle, slowk line < slowd and Momentum on Stochastic Oscillators is over 80, sell.
+
+ 
 ## Source:
 - [Stochastics: An Accurate Buy and Sell Indicator](https://www.investopedia.com/articles/technical/073001.asp)
 
