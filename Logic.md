@@ -2,25 +2,18 @@
 
 # Logic:
 
-## Trend Confirmation
-- If 200 period moving average > 50 period moving average >21 period moving average >9 Period Moving Average, Price is in uptrend and anticipate corrections
-- If 200 period moving average < 50 period moving average <21 period moving average <9 Period Moving Average, Price is in downtrend and anticipate reversals
-
-
-## Trading Rules
+## Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy
 
 ### Buy
 
-- If Value of VIX is less than 18, look at the dots on the Parabolic Stop & Reverse.
-- If the dot on PSAR is below the candle, slowk line > slowd and Momentum on Stochastic Oscillators is under 20, buy.
-- If the dot on PSAR is above the candle, slowk line < slowd and Momentum on Stochastic Oscillators is over 80, sell.
+- If Stock price > 200 Day Simple Moving Avergae & PSAR Dot below candle, buy.
+- If Stock price > 200 Day Simple Moving Avergae & PSAR Dot above candle, exit buy position (Not a signal to sell short).
 
 ### Sell
 
-- If Value of VIX is greater than 30, look at the dots on the Parabolic Stop & Reverse.
-- If the dot on PSAR is below the candle, slowk line > slowd and Momentum on Stochastic Oscillators is under 20, buy.
-- If the dot on PSAR is above the candle, slowk line < slowd and Momentum on Stochastic Oscillators is over 80, sell.
-
+- If Stock price < 200 Day Simple Moving Avergae & PSAR Dot above candle, short sell.
+- If Stock price < 200 Day Simple Moving Avergae & PSAR Dot below candle, exit short position (Not a signal to buy).
+ 
  
 ## Source:
 - [Stochastics: An Accurate Buy and Sell Indicator](https://www.investopedia.com/articles/technical/073001.asp)
