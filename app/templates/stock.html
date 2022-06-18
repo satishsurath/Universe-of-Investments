@@ -17,8 +17,11 @@
                 let chartJson = await response.json();
                 if (response.ok) {
                     response = await fetch("/callback/getInfo?data=" + Stock);
+                    response_signal = await fetch("/callback/TradingSignal");
                     let infoJson = await response.json();
+                    let tradeSignalText = await response_signal.text()
                     info(infoJson);
+                    tradeSignal(tradeSignalText);
                     Plotly.newPlot('chart', chartJson, {}, config_responsive);
                     graphNotLoaded = 0;
                 } else {
@@ -37,13 +40,18 @@
             name.innerHTML = json.dayHigh;
             name = document.getElementById('dayLow');
             name.innerHTML = json.dayLow;
-            
             name = document.getElementById('52WeekHigh');
             name.innerHTML = json.fiftyTwoWeekHigh;            
             name = document.getElementById('52WeekLow');
             name.innerHTML = json.fiftyTwoWeekLow;
             let alert_name = document.getElementById('alert');
-            alert_name.innerHTML = "";    
+            alert_name.innerHTML = "";   
+        }
+        
+        function tradeSignal(text) {
+            
+            let tradesignal_name = document.getElementById('TradingSignals');
+            tradesignal_name.innerHTML = text;
         }
     </script>
 {% endblock %}
@@ -136,6 +144,8 @@
         </div>
                   <div class="row">
         <div class="col-12" style="text-align: center;"> <br> <h5 id="alert" style="color:red"> Alert Message: [Placeholder] </h5> </div>
+        <div class="col-12" style="text-align: center;"> <br> <h5 id="TradingSignals" style="color:black"> TradeSignal: [Placeholder] </h5> </div>
+                      
             </div>
       <div class="row">
           <div class="col-6" style="text-align: left;color:#999" id="graph_counter"> </div>   

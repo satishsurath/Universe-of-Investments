@@ -69,6 +69,8 @@ def cb2(endpoint):
     elif endpoint == "getPASR_MA":
         #return gm(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
         return new_PASR_MA_Plot(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
+    elif endpoint == "TradingSignal":
+        return "Buy"
     elif endpoint == "getInfo":
         stock = request.args.get('data')
         st = yf.Ticker(stock)
