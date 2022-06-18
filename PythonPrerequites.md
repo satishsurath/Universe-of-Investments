@@ -6,6 +6,7 @@ pip install pandas_ta
 pip install yfinance
 pip install mplfinance
 conda install -c conda-forge ta-lib
+pip install imblearn
 ```
 
 ### 1.2 Follow the next steps to install PyViz and all its dependencies in your Python virtual environment.
