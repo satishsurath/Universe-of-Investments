@@ -70,7 +70,7 @@ def cb2(endpoint):
         #return gm(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
         return new_PASR_MA_Plot(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
     elif endpoint == "TradingSignal":
-        return "Buy"
+        return "Based on <b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy <br> The Trading Signal is to <b>Buy</b>"
     elif endpoint == "getInfo":
         stock = request.args.get('data')
         st = yf.Ticker(stock)
@@ -79,21 +79,202 @@ def cb2(endpoint):
         return "Bad endpoint", 400
     
 
-    
-#function to calculate the RSI Technical Indicator
-def RSI(df, n=14):
-    "function to calculate RSI"
-    df = df.copy()
-    df["change"] = df["Adj Close"] - df["Adj Close"].shift(1)
-    df["gain"] = np.where(df["change"]>=0, df["change"], 0)
-    df["loss"] = np.where(df["change"]<0, -1*df["change"], 0)
-    df["avgGain"] = df["gain"].ewm(alpha=1/n, min_periods=n).mean()
-    df["avgLoss"] = df["loss"].ewm(alpha=1/n, min_periods=n).mean()
-    df["rs"] = df["avgGain"]/df["avgLoss"]
-    df["rsi"] = 100 - (100/ (1 + df["rs"]))
+
+
+def new_PASR_MA_Plot(stock,period, interval):
+    start = dt.datetime.today()-dt.timedelta(360)
+    end = dt.datetime.today()
+    s = dt.datetime.today()-dt.timedelta(90)
+    e = dt.datetime.today()
+    st = dt.datetime.today()-dt.timedelta(2)
+    ed = dt.datetime.today()
+    ticker = stock
+    df = yf.download(stock, start, end)
+    #df.head()
+    #dfso = add_stochastic_oscillator(df, periods=14)
+    df = psar(df)
+    fig_stock = PSAR_MA_Strategy(df)
+    graphJSON_stock = json.dumps(fig_stock, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON_stock
+
+
+
+
+def psar(df, iaf = 0.02, maxaf = 0.2):
+    length = len(df)
+    dates = list(df.index)
+    high = list(df['High'])
+    low = list(df['Low'])
+    close = list(df['Close'])
+    psar = close[0:len(close)]
+    psarbull = [None] * length
+    psarbear = [None] * length
+    bull = True
+    af = iaf
+    ep = low[0]
+    hp = high[0]
+    lp = low[0]
+
+    for i in range(2,length):
+        if bull:
+            psar[i] = psar[i - 1] + af * (hp - psar[i - 1])
+        else:
+            psar[i] = psar[i - 1] + af * (lp - psar[i - 1])
+        reverse = False
+        if bull:
+            if low[i] < psar[i]:
+                bull = False
+                reverse = True
+                psar[i] = hp
+                lp = low[i]
+                af = iaf
+        else:
+            if high[i] > psar[i]:
+                bull = True
+                reverse = True
+                psar[i] = lp
+                hp = high[i]
+                af = iaf
+        if not reverse:
+            if bull:
+                if high[i] > hp:
+                    hp = high[i]
+                    af = min(af + iaf, maxaf)
+                if low[i - 1] < psar[i]:
+                    psar[i] = low[i - 1]
+                if low[i - 2] < psar[i]:
+                    psar[i] = low[i - 2]
+            else:
+                if low[i] < lp:
+                    lp = low[i]
+                    af = min(af + iaf, maxaf)
+                if high[i - 1] > psar[i]:
+                    psar[i] = high[i - 1]
+                if high[i - 2] > psar[i]:
+                    psar[i] = high[i - 2]
+        if bull:
+            psarbull[i] = psar[i]
+        else:
+            psarbear[i] = psar[i]
+ 
+    startidx = 0
+    endidx = len(df)
+
+    result = {"dates":dates, "high":high, "low":low, "close":close, "psar":psar, "psarbear":psarbear, "psarbull":psarbull}
+    df["dates"] = result['dates'][startidx:endidx]
+    df["close"] = result['close'][startidx:endidx]
+    df["psarbear"] = result['psarbear'][startidx:endidx]
+    df["psarbull"] = result['psarbull'][startidx:endidx]
+    df['Slow MA'] = df['Adj Close'].rolling(200).mean()
     return df
 
+def tradeSignal(df):
+    print("test")
+    #df.tail(100)
+    # IF df.iloc[-1] == 0 THEN "Closing Position / Do Nothing"
+    # IF df.iloc[-1] == 1 THEN "BUY"
+    # IF df.iloc[-1] == -1 THEN "SELL / SHORT Sell"
 
+def PSAR_MA_Strategy(df):
+    fig = go.Figure(data=[go.Candlestick(x=df.index,
+                open=df['Open'],
+                high=df['High'],
+                low=df['Low'],
+                close=df['Close'])])
+
+    fig.add_trace(go.Scatter(x=df.index, y=df["psarbull"], name='buy',mode = 'markers',
+                         marker = dict(color='green', size=4)))
+
+    fig.add_trace(go.Scatter(x=df.index, y=df["psarbear"], name='sell', mode = 'markers',
+                         marker = dict(color='red', size=4)))
+
+    fig.add_trace(go.Scatter(x=df.index, y=df['Slow MA'], name='Slow MA',
+                         line = dict(color='orange', width=2)))
+
+    # fig.add_trace(go.Scatter(x=dfp.index, y=dfp['Fast MA'], name='fast MA',
+    #                          line = dict(color='Blue', width=2)))
+    # Make it pretty
+    layout = go.Layout(
+        height=1000, #width=1000,
+        plot_bgcolor='#EFEFEF',
+        # Font Families
+        font_family='Monospace',
+        font_color='#000000',
+        font_size=20,
+        title="<b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR)<br>& 200 Days Simple Moving Average Strategy",
+        xaxis=dict(
+            rangeslider=dict(
+                visible=False
+            )
+        )
+    )
+    # Update options and show plot
+    fig.update_layout(layout)
+
+    return fig
+
+@app.route('/Stock')
+def stock():
+    return render_template('stock.html')#,  graphJSON=gm())
+
+@app.route('/Porfolio')
+def portfolio():
+    return render_template('portfolio.html')#,  graphJSON=gm())
+
+@app.route('/Return')
+def return_portfolio():
+    return render_template('return.html')#,  graphJSON=gm())
+
+
+@app.route('/Return-Portfolio')
+def return_portfolio_all():
+    return render_template('return_all.html')#,  graphJSON=gm())
+
+@app.route('/Educate-Yourself')
+def education():
+    return render_template('education.html')#,  graphJSON=gm())
+
+@app.route('/Career')
+def career():
+    return render_template('career.html')#,  graphJSON=gm())
+
+
+def alpaca_get_market_data(stock,period, interval):
+    start_date = "2019-04-10"
+    end_date = "2022-04-10"
+    # Set the tickers
+    # tickers = "AAPL"
+    tickers = stock
+    timeframe = "1D"
+    api = REST(api_key1, api_secret_key1, api_version='v2')
+    df2 = api.get_bars(tickers, TimeFrame.Day, start_date, end_date, adjustment='raw').df
+    df2.loc[:,'symbol'] = tickers
+    max = (df2['close'].max())
+    min = (df2['close'].min())
+    range = max - min
+    margin = range * 0.05
+    max = max + margin
+    min = min - margin
+    chart_title = "Stock Data for " + stock
+    fig_stock = px.area(df2, x=df2.index, y="open", hover_data=("symbol","open","close","volume"), 
+        range_y=(min,max), template="seaborn", title=chart_title)
+    graphJSON = json.dumps(fig_stock, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
+
+def new_SO_Plot(stock,period, interval):
+    start = dt.datetime.today()-dt.timedelta(360)
+    end = dt.datetime.today()
+    s = dt.datetime.today()-dt.timedelta(90)
+    e = dt.datetime.today()
+    st = dt.datetime.today()-dt.timedelta(2)
+    ed = dt.datetime.today()
+    ticker = stock
+    df = yf.download(stock, start, end)
+    #df.head()
+    dfso = add_stochastic_oscillator(df, periods=14)
+    fig_stock = plotly_stochastic_oscillator(dfso, ticker, "6M")
+    graphJSON_stock = json.dumps(fig_stock, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON_stock
 
 
 def plotly_stochastic_oscillator(dfso, ticker, rng, periods=14):
@@ -156,6 +337,25 @@ def add_stochastic_oscillator(df, periods=14):
     df_return['Overbought'] = 80
     return df_return
 
+
+    
+#function to calculate the RSI Technical Indicator
+def RSI(df, n=14):
+    "function to calculate RSI"
+    df = df.copy()
+    df["change"] = df["Adj Close"] - df["Adj Close"].shift(1)
+    df["gain"] = np.where(df["change"]>=0, df["change"], 0)
+    df["loss"] = np.where(df["change"]<0, -1*df["change"], 0)
+    df["avgGain"] = df["gain"].ewm(alpha=1/n, min_periods=n).mean()
+    df["avgLoss"] = df["loss"].ewm(alpha=1/n, min_periods=n).mean()
+    df["rs"] = df["avgGain"]/df["avgLoss"]
+    df["rsi"] = 100 - (100/ (1 + df["rs"]))
+    return df
+
+
+
+
+
 today = dt.datetime.now()
 date_pattern = "%Y-%m-%d"
 today_str = today.strftime(date_pattern)
@@ -168,197 +368,8 @@ date_ranges = {
 }
 
 
-def new_SO_Plot(stock,period, interval):
-    start = dt.datetime.today()-dt.timedelta(360)
-    end = dt.datetime.today()
-    s = dt.datetime.today()-dt.timedelta(90)
-    e = dt.datetime.today()
-    st = dt.datetime.today()-dt.timedelta(2)
-    ed = dt.datetime.today()
-    ticker = stock
-    df = yf.download(stock, start, end)
-    #df.head()
-    dfso = add_stochastic_oscillator(df, periods=14)
-    fig_stock = plotly_stochastic_oscillator(dfso, ticker, "6M")
-    graphJSON_stock = json.dumps(fig_stock, cls=plotly.utils.PlotlyJSONEncoder)
-    return graphJSON_stock
-    
 
-def new_PASR_MA_Plot(stock,period, interval):
-    start = dt.datetime.today()-dt.timedelta(360)
-    end = dt.datetime.today()
-    s = dt.datetime.today()-dt.timedelta(90)
-    e = dt.datetime.today()
-    st = dt.datetime.today()-dt.timedelta(2)
-    ed = dt.datetime.today()
-    ticker = stock
-    df = yf.download(stock, start, end)
-    #df.head()
-    #dfso = add_stochastic_oscillator(df, periods=14)
-    fig_stock = PSAR_MA_Strategy(df)
-    graphJSON_stock = json.dumps(fig_stock, cls=plotly.utils.PlotlyJSONEncoder)
-    return graphJSON_stock
-
-def alpaca_get_market_data(stock,period, interval):
-    start_date = "2019-04-10"
-    end_date = "2022-04-10"
-    # Set the tickers
-    # tickers = "AAPL"
-    tickers = stock
-    timeframe = "1D"
-    api = REST(api_key1, api_secret_key1, api_version='v2')
-    df2 = api.get_bars(tickers, TimeFrame.Day, start_date, end_date, adjustment='raw').df
-    df2.loc[:,'symbol'] = tickers
-    max = (df2['close'].max())
-    min = (df2['close'].min())
-    range = max - min
-    margin = range * 0.05
-    max = max + margin
-    min = min - margin
-    chart_title = "Stock Data for " + stock
-    fig_stock = px.area(df2, x=df2.index, y="open", hover_data=("symbol","open","close","volume"), 
-        range_y=(min,max), template="seaborn", title=chart_title)
-    graphJSON = json.dumps(fig_stock, cls=plotly.utils.PlotlyJSONEncoder)
-    return graphJSON
+   
 
 
-def psar(df, iaf = 0.02, maxaf = 0.2):
-    length = len(df)
-    dates = list(df.index)
-    high = list(df['High'])
-    low = list(df['Low'])
-    close = list(df['Close'])
-    psar = close[0:len(close)]
-    psarbull = [None] * length
-    psarbear = [None] * length
-    bull = True
-    af = iaf
-    ep = low[0]
-    hp = high[0]
-    lp = low[0]
 
-    for i in range(2,length):
-        if bull:
-            psar[i] = psar[i - 1] + af * (hp - psar[i - 1])
-        else:
-            psar[i] = psar[i - 1] + af * (lp - psar[i - 1])
-        reverse = False
-        if bull:
-            if low[i] < psar[i]:
-                bull = False
-                reverse = True
-                psar[i] = hp
-                lp = low[i]
-                af = iaf
-        else:
-            if high[i] > psar[i]:
-                bull = True
-                reverse = True
-                psar[i] = lp
-                hp = high[i]
-                af = iaf
-        if not reverse:
-            if bull:
-                if high[i] > hp:
-                    hp = high[i]
-                    af = min(af + iaf, maxaf)
-                if low[i - 1] < psar[i]:
-                    psar[i] = low[i - 1]
-                if low[i - 2] < psar[i]:
-                    psar[i] = low[i - 2]
-            else:
-                if low[i] < lp:
-                    lp = low[i]
-                    af = min(af + iaf, maxaf)
-                if high[i - 1] > psar[i]:
-                    psar[i] = high[i - 1]
-                if high[i - 2] > psar[i]:
-                    psar[i] = high[i - 2]
-        if bull:
-            psarbull[i] = psar[i]
-        else:
-            psarbear[i] = psar[i]
-    return {"dates":dates, "high":high, "low":low, "close":close, "psar":psar, "psarbear":psarbear, "psarbull":psarbull}
-
-def PSAR_MA_Strategy(df):
-    startidx = 0
-    endidx = len(df)
-
-    result = psar(df)
-    dates = result['dates'][startidx:endidx]
-    close = result['close'][startidx:endidx]
-    psarbear = result['psarbear'][startidx:endidx]
-    psarbull = result['psarbull'][startidx:endidx]
-    df['Slow MA'] = df['Adj Close'].rolling(200).mean()
-    #     df['Fast MA'] = df['Adj Close'].rolling(9).mean()
-
-    # plt.title('PSAR (Parabolic Stop & Reverse)')
-    # plt.plot(dates, close, label = ticker)
-    # plt.plot(dates, psarbull, label = 'Buy', color = 'green')
-    # plt.plot(dates, psarbear, label = 'Sell', color = 'red' )
-    # plt.plot(df['200 MA'], label = '200 Day MA')
-    # plt.legend()
-    # plt.grid()
-    # plt.show()
-
-    fig = go.Figure(data=[go.Candlestick(x=df.index,
-                open=df['Open'],
-                high=df['High'],
-                low=df['Low'],
-                close=df['Close'])])
-
-    fig.add_trace(go.Scatter(x=dates, y=psarbull, name='buy',mode = 'markers',
-                         marker = dict(color='green', size=4)))
-
-    fig.add_trace(go.Scatter(x=dates, y=psarbear, name='sell', mode = 'markers',
-                         marker = dict(color='red', size=4)))
-
-    fig.add_trace(go.Scatter(x=df.index, y=df['Slow MA'], name='Slow MA',
-                         line = dict(color='orange', width=2)))
-
-    # fig.add_trace(go.Scatter(x=dfp.index, y=dfp['Fast MA'], name='fast MA',
-    #                          line = dict(color='Blue', width=2)))
-    # Make it pretty
-    layout = go.Layout(
-        height=1000, #width=1000,
-        plot_bgcolor='#EFEFEF',
-        # Font Families
-        font_family='Monospace',
-        font_color='#000000',
-        font_size=20,
-        title="<b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR)<br>& 200 Days Simple Moving Average Strategy",
-        xaxis=dict(
-            rangeslider=dict(
-                visible=False
-            )
-        )
-    )
-    # Update options and show plot
-    fig.update_layout(layout)
-
-    return fig
-
-@app.route('/Stock')
-def stock():
-    return render_template('stock.html')#,  graphJSON=gm())
-
-@app.route('/Porfolio')
-def portfolio():
-    return render_template('portfolio.html')#,  graphJSON=gm())
-
-@app.route('/Return')
-def return_portfolio():
-    return render_template('return.html')#,  graphJSON=gm())
-
-
-@app.route('/Return-Portfolio')
-def return_portfolio_all():
-    return render_template('return_all.html')#,  graphJSON=gm())
-
-@app.route('/Educate-Yourself')
-def education():
-    return render_template('education.html')#,  graphJSON=gm())
-
-@app.route('/Career')
-def career():
-    return render_template('career.html')#,  graphJSON=gm())
