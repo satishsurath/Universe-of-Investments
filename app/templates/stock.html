@@ -7,6 +7,7 @@
             var config_responsive = {responsive: true}
             graphNotLoaded = 1;
             countDownDate = new Date().getTime();
+            clear_innerHTML();
             let name = document.getElementById('alert');
             name.innerHTML = "Please allow for upto 10 secs for the data to load - This Message will disappear once we finish loading everything";
             let Stock = document.getElementById('stock').value;
@@ -31,6 +32,28 @@
                 alert("HTTP-Error: " + response.status + "on getPASR_MA");
             }
         }
+        
+        
+        function clear_innerHTML() {
+        document.getElementById('chart').innerHTML = ""
+            let name = document.getElementById('companyName');
+            name.innerHTML = "";
+            name = document.getElementById('symbol');
+            name.innerHTML = "";
+            name = document.getElementById('dayHigh');
+            name.innerHTML = "";
+            name = document.getElementById('dayLow');
+            name.innerHTML = "";
+            name = document.getElementById('52WeekHigh');
+            name.innerHTML = "";         
+            name = document.getElementById('52WeekLow');
+            name.innerHTML = "";    
+            let tradesignal_name = document.getElementById('TradingSignals');
+            tradesignal_name.innerHTML = "";
+            
+        }
+        
+            
         function info(json) {
             let name = document.getElementById('companyName');
             name.innerHTML = json.shortName;
