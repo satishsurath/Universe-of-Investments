@@ -50,6 +50,7 @@
             name.innerHTML = "";    
             let tradesignal_name = document.getElementById('TradingSignals');
             tradesignal_name.innerHTML = "";
+            document.getElementById("graph_counter").innerHTML = ""
             
         }
         
@@ -227,7 +228,7 @@ var x = setInterval(function()
             {
                 document.getElementById("graph_counter").innerHTML = "Time for Graph to Load: " + minutes + "m " + seconds + "s ";
             }
-        }, 1000);
+        }, 100);
 
 
 </script>
