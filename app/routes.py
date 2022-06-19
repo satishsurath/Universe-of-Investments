@@ -72,6 +72,9 @@ def cb2(endpoint):
     elif endpoint == "getPASR_MA":
         #return gm(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
         return new_PASR_MA_Plot(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
+    elif endpoint == "getPASR_MA_large":
+        #return gm(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
+        return new_PASR_MA_Plot_large(request.args.get('data'),request.args.get('period'),request.args.get('interval'))    
     elif endpoint == "TradingSignal":
         end = dt.datetime.today()
         s = dt.datetime.today()-dt.timedelta(90)
@@ -93,6 +96,23 @@ def cb2(endpoint):
         return "Bad endpoint", 400
     
 
+def new_PASR_MA_Plot_large(stock,period, interval):
+    start = dt.datetime.today()-dt.timedelta(360)
+    end = dt.datetime.today()
+    s = dt.datetime.today()-dt.timedelta(90)
+    e = dt.datetime.today()
+    st = dt.datetime.today()-dt.timedelta(2)
+    ed = dt.datetime.today()
+    ticker = yf.Ticker(stock)
+    #df = yf.download(stock, start, end)
+    df = ticker.history(period="2y")
+    #df.head()
+    #dfso = add_stochastic_oscillator(df, periods=14)
+    df = psar(df)
+    #df_global_store = df.copy()
+    fig_stock = PSAR_MA_Strategy_large(df.tail(252))
+    graphJSON_stock = json.dumps(fig_stock, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON_stock
 
 
 def new_PASR_MA_Plot(stock,period, interval):
@@ -230,6 +250,39 @@ def PSAR_MA_Strategy(df):
 
     return fig
 
+def PSAR_MA_Strategy_large(df):
+    fig = go.Figure(data=[go.Candlestick(x=df.index, open=df['Open'],high=df['High'],low=df['Low'],close=df['Close'],name="Candlestick")])
+
+    fig.add_trace(go.Scatter(x=df.index, y=df["psarbull"], name='Buy',mode = 'markers',
+                         marker = dict(color='green', size=4)))
+
+    fig.add_trace(go.Scatter(x=df.index, y=df["psarbear"], name='Short / Sell', mode = 'markers',
+                         marker = dict(color='red', size=4)))
+
+    fig.add_trace(go.Scatter(x=df.index, y=df['Slow MA'], name='200 Day SMA',
+                         line = dict(color='orange', width=2)))
+
+    # fig.add_trace(go.Scatter(x=dfp.index, y=dfp['Fast MA'], name='fast MA',
+    #                          line = dict(color='Blue', width=2)))
+    # Make it pretty
+    layout = go.Layout(
+        height=1000, #width=1000,
+        plot_bgcolor='#EFEFEF',
+        # Font Families
+        font_family='Monospace',
+        font_color='#000000',
+        font_size=20,
+        title="<b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR)<br>& 200 Days Simple Moving Average Strategy",
+        xaxis=dict(
+            rangeslider=dict(
+                visible=False
+            )
+        )
+    )
+    # Update options and show plot
+    fig.update_layout(layout)
+
+    return fig
 
 def tradeSignal(trading_signal_flag,diagnostic_info, stock):
     #df.tail(100)

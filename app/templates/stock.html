@@ -13,7 +13,7 @@
             let Stock = document.getElementById('stock').value;
             let Period = document.getElementById('period').value;
             let Interval = document.getElementById('interval').value;
-            let response = await fetch("/callback/getPASR_MA?data=" + Stock + "&period=" + Period + "&interval=" + Interval);
+            let response = await fetch("/callback/getPASR_MA_large?data=" + Stock + "&period=" + Period + "&interval=" + Interval);
             if (response.ok) {
                 let chartJson = await response.json();
                 if (response.ok) {
