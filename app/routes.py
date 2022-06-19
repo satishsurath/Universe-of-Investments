@@ -268,6 +268,9 @@ def portfolio():
 def return_portfolio():
     return render_template('return.html')#,  graphJSON=gm())
 
+@app.route('/Trading-Indicators-for-Portfolio')
+def return_portfolio():
+    return render_template('return.html')#,  graphJSON=gm())
 
 @app.route('/Return-Portfolio')
 def return_portfolio_all():
