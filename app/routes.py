@@ -56,6 +56,8 @@ api_key1=os.getenv("ALPACA_API_KEY")
 api_secret_key1=os.getenv("ALPACA_SECRET_KEY")
 
 
+pd.DataFrame()
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -71,7 +73,18 @@ def cb2(endpoint):
         #return gm(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
         return new_PASR_MA_Plot(request.args.get('data'),request.args.get('period'),request.args.get('interval'))
     elif endpoint == "TradingSignal":
-        return "Based on <b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy <br> The Trading Signal is to <b>Buy</b>"
+        end = dt.datetime.today()
+        s = dt.datetime.today()-dt.timedelta(90)
+        e = dt.datetime.today()
+        st = dt.datetime.today()-dt.timedelta(2)
+        ed = dt.datetime.today()
+        stock = request.args.get('data')
+        ticker = yf.Ticker(stock)
+        #df = yf.download(stock, start, end)
+        df = ticker.history(period="max")
+        df = psar(df)
+        string_frame = df.iloc[-1].to_string()
+        return tradeSignal(df["signal"].iloc[-1], string_frame)
     elif endpoint == "getInfo":
         stock = request.args.get('data')
         st = yf.Ticker(stock)
@@ -89,12 +102,14 @@ def new_PASR_MA_Plot(stock,period, interval):
     e = dt.datetime.today()
     st = dt.datetime.today()-dt.timedelta(2)
     ed = dt.datetime.today()
-    ticker = stock
-    df = yf.download(stock, start, end)
+    ticker = yf.Ticker(stock)
+    #df = yf.download(stock, start, end)
+    df = ticker.history(period="max")
     #df.head()
     #dfso = add_stochastic_oscillator(df, periods=14)
     df = psar(df)
-    fig_stock = PSAR_MA_Strategy(df)
+    #df_global_store = df.copy()
+    fig_stock = PSAR_MA_Strategy(df.tail(252))
     graphJSON_stock = json.dumps(fig_stock, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON_stock
 
@@ -179,12 +194,7 @@ def psar(df, iaf = 0.02, maxaf = 0.2):
     df['signal'] = df.apply(signal, axis = 1)
     return df
 
-def tradeSignal(df):
-    print("test")
-    #df.tail(100)
-    # IF df.iloc[-1] == 0 THEN "Closing Position / Do Nothing"
-    # IF df.iloc[-1] == 1 THEN "BUY"
-    # IF df.iloc[-1] == -1 THEN "SELL / SHORT Sell"
+
 
 def PSAR_MA_Strategy(df):
     fig = go.Figure(data=[go.Candlestick(x=df.index,
@@ -225,6 +235,21 @@ def PSAR_MA_Strategy(df):
     return fig
 
 
+def tradeSignal(trading_signal_flag,diagnostic_info):
+    #df.tail(100)
+    # IF df.iloc[-1] == 0 THEN "Closing Position / Do Nothing"
+    # IF df.iloc[-1] == 1 THEN "BUY"
+    # IF df.iloc[-1] == -1 THEN "SELL / SHORT Sell"
+    if trading_signal_flag > 0:
+        return "Based on <b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy <br> The Trading Signal is to <b>Buy</b><br><small style='color:#aaa'><br>diagnostic_info:<br>" + diagnostic_info + "</small>"
+    elif trading_signal_flag < 0:
+        return "Based on <b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy <br> The Trading Signal is to <b>SHORT</b><br><small style='color:#aaa'><br>diagnostic_info:<br>" + diagnostic_info + "</small>"
+    else:
+        return "Based on <b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy <br> The Trading Signal is to <b>Close Position</b><br><small style='color:#aaa'><br>diagnostic_info:<br>" + diagnostic_info + "</small>"
+
+
+    
+    
 def signal(df):
     if df['Action'] == 1 and df['PSAR_Action'] == 1:
         return 1

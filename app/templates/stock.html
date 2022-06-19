@@ -17,7 +17,7 @@
                 let chartJson = await response.json();
                 if (response.ok) {
                     response = await fetch("/callback/getInfo?data=" + Stock);
-                    response_signal = await fetch("/callback/TradingSignal");
+                    response_signal = await fetch("/callback/TradingSignal?data=" + Stock);
                     let infoJson = await response.json();
                     let tradeSignalText = await response_signal.text()
                     info(infoJson);
