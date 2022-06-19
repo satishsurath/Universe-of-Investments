@@ -197,19 +197,15 @@ def psar(df, iaf = 0.02, maxaf = 0.2):
 
 
 def PSAR_MA_Strategy(df):
-    fig = go.Figure(data=[go.Candlestick(x=df.index,
-                open=df['Open'],
-                high=df['High'],
-                low=df['Low'],
-                close=df['Close'])])
+    fig = go.Figure(data=[go.Candlestick(x=df.index, open=df['Open'],high=df['High'],low=df['Low'],close=df['Close'],name="Candlestick")])
 
-    fig.add_trace(go.Scatter(x=df.index, y=df["psarbull"], name='buy',mode = 'markers',
+    fig.add_trace(go.Scatter(x=df.index, y=df["psarbull"], name='Buy',mode = 'markers',
                          marker = dict(color='green', size=4)))
 
-    fig.add_trace(go.Scatter(x=df.index, y=df["psarbear"], name='sell', mode = 'markers',
+    fig.add_trace(go.Scatter(x=df.index, y=df["psarbear"], name='Short / Sell', mode = 'markers',
                          marker = dict(color='red', size=4)))
 
-    fig.add_trace(go.Scatter(x=df.index, y=df['Slow MA'], name='Slow MA',
+    fig.add_trace(go.Scatter(x=df.index, y=df['Slow MA'], name='200 Day SMA',
                          line = dict(color='orange', width=2)))
 
     # fig.add_trace(go.Scatter(x=dfp.index, y=dfp['Fast MA'], name='fast MA',
