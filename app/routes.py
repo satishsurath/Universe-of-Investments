@@ -241,9 +241,9 @@ def tradeSignal(trading_signal_flag,diagnostic_info):
     # IF df.iloc[-1] == 1 THEN "BUY"
     # IF df.iloc[-1] == -1 THEN "SELL / SHORT Sell"
     if trading_signal_flag > 0:
-        return "Based on <b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy <br> The Trading Signal is to <b>Buy</b><br><small style='color:#aaa'><br>diagnostic_info:<br>" + diagnostic_info + "</small>"
+        return "Based on <b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy <br> The Trading Signal is to <b>BUY </b><br><small style='color:#aaa'><br>diagnostic_info:<br>" + diagnostic_info + "</small>"
     elif trading_signal_flag < 0:
-        return "Based on <b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy <br> The Trading Signal is to <b>SHORT</b><br><small style='color:#aaa'><br>diagnostic_info:<br>" + diagnostic_info + "</small>"
+        return "Based on <b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy <br> The Trading Signal is to <b>SHORT / SELL</b><br><small style='color:#aaa'><br>diagnostic_info:<br>" + diagnostic_info + "</small>"
     else:
         return "Based on <b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy <br> The Trading Signal is to <b>Close Position</b><br><small style='color:#aaa'><br>diagnostic_info:<br>" + diagnostic_info + "</small>"
 
