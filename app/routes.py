@@ -20,6 +20,7 @@ from app.forms import ResetPasswordForm
 
 #Adding simple Plotly Graph
 import pandas as pd
+import numpy as np
 import json
 import plotly
 import plotly.express as px
@@ -164,8 +165,18 @@ def psar(df, iaf = 0.02, maxaf = 0.2):
     df["dates"] = result['dates'][startidx:endidx]
     df["close"] = result['close'][startidx:endidx]
     df["psarbear"] = result['psarbear'][startidx:endidx]
+    df["PSAR"] = result['psarbear'][startidx:endidx]
     df["psarbull"] = result['psarbull'][startidx:endidx]
-    df['Slow MA'] = df['Adj Close'].rolling(200).mean()
+    df['Slow MA'] = df['Close'].rolling(200).mean()
+    df['200 MA'] = df["Close"].rolling(200).mean()
+    # df['9 MA'], df['21 MA'] = talib.MA(df['Adj Close'], timeperiod=9, matype=0), talib.MA(df['Adj Close'], timeperiod=21, matype=0)
+    #df['PSAR'] = real = talib.SAR(df['High'], df['Low'], acceleration=0.02, maximum=0.2)
+    # df['upperband'], df['middleband'], df['lowerband'] = talib.BBANDS(df['Adj Close'], timeperiod=20, nbdevup=2, nbdevdn=2, matype=0)
+    df['Action'] = np.where(df['Close'] > df['200 MA'] , 1, 0) 
+    df['Action'] = np.where(df['Close'] < df['200 MA'], -1, df['Action'])
+    df['PSAR_Action'] = np.where(df['PSAR'] < df['Low'] , 1, 0) 
+    df['PSAR_Action'] = np.where(df['PSAR'] > df['High'], -1, df['PSAR_Action'])  
+    df['signal'] = df.apply(signal, axis = 1)
     return df
 
 def tradeSignal(df):
@@ -212,6 +223,17 @@ def PSAR_MA_Strategy(df):
     fig.update_layout(layout)
 
     return fig
+
+
+def signal(df):
+    if df['Action'] == 1 and df['PSAR_Action'] == 1:
+        return 1
+    elif df['Action'] == -1 and df['PSAR_Action'] == -1:
+        return -1
+    else:
+        return 0
+    
+
 
 @app.route('/Stock')
 def stock():
