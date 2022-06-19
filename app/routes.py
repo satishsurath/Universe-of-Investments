@@ -81,10 +81,10 @@ def cb2(endpoint):
         stock = request.args.get('data')
         ticker = yf.Ticker(stock)
         #df = yf.download(stock, start, end)
-        df = ticker.history(period="max")
+        df = ticker.history(period="2y")
         df = psar(df)
         string_frame = df.iloc[-1].to_string()
-        return tradeSignal(df["signal"].iloc[-1], string_frame)
+        return tradeSignal(df["signal"].iloc[-1], string_frame, stock)
     elif endpoint == "getInfo":
         stock = request.args.get('data')
         st = yf.Ticker(stock)
@@ -104,7 +104,7 @@ def new_PASR_MA_Plot(stock,period, interval):
     ed = dt.datetime.today()
     ticker = yf.Ticker(stock)
     #df = yf.download(stock, start, end)
-    df = ticker.history(period="max")
+    df = ticker.history(period="2y")
     #df.head()
     #dfso = add_stochastic_oscillator(df, periods=14)
     df = psar(df)
@@ -180,7 +180,7 @@ def psar(df, iaf = 0.02, maxaf = 0.2):
     df["dates"] = result['dates'][startidx:endidx]
     df["close"] = result['close'][startidx:endidx]
     df["psarbear"] = result['psarbear'][startidx:endidx]
-    df["PSAR"] = result['psarbear'][startidx:endidx]
+    df["PSAR"] = result['psar'][startidx:endidx]
     df["psarbull"] = result['psarbull'][startidx:endidx]
     df['Slow MA'] = df['Close'].rolling(200).mean()
     df['200 MA'] = df["Close"].rolling(200).mean()
@@ -212,7 +212,7 @@ def PSAR_MA_Strategy(df):
     #                          line = dict(color='Blue', width=2)))
     # Make it pretty
     layout = go.Layout(
-        height=1000, #width=1000,
+        height=300, #width=1000,
         plot_bgcolor='#EFEFEF',
         # Font Families
         font_family='Monospace',
@@ -231,17 +231,17 @@ def PSAR_MA_Strategy(df):
     return fig
 
 
-def tradeSignal(trading_signal_flag,diagnostic_info):
+def tradeSignal(trading_signal_flag,diagnostic_info, stock):
     #df.tail(100)
     # IF df.iloc[-1] == 0 THEN "Closing Position / Do Nothing"
     # IF df.iloc[-1] == 1 THEN "BUY"
     # IF df.iloc[-1] == -1 THEN "SELL / SHORT Sell"
     if trading_signal_flag > 0:
-        return "Based on <b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy <br> The Trading Signal is to <b>BUY </b><br><small style='color:#aaa'><br>diagnostic_info:<br>" + diagnostic_info + "</small>"
+        return "Based on <b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy for the Stock <b>" + stock +"</b><br> The Trading Signal is to <b>BUY </b><br><small style='color:#aaa'><br>diagnostic_info:<br>" + diagnostic_info + "</small>"
     elif trading_signal_flag < 0:
-        return "Based on <b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy <br> The Trading Signal is to <b>SHORT / SELL</b><br><small style='color:#aaa'><br>diagnostic_info:<br>" + diagnostic_info + "</small>"
+        return "Based on <b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy for the Stock <b>" + stock +"</b><br> The Trading Signal is to <b>SHORT / SELL</b><br><small style='color:#aaa'><br>diagnostic_info:<br>" + diagnostic_info + "</small>"
     else:
-        return "Based on <b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy <br> The Trading Signal is to <b>Close Position</b><br><small style='color:#aaa'><br>diagnostic_info:<br>" + diagnostic_info + "</small>"
+        return "Based on <b>Trading Indicator:</b> Parabolic Stop & Reverse (PSAR) & 200 Days Simple Moving Average Strategy for the Stock <b>" + stock +"</b><br> The Trading Signal is to <b>Close Position</b><br><small style='color:#aaa'><br>diagnostic_info:<br>" + diagnostic_info + "</small>"
 
 
     

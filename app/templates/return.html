@@ -8,7 +8,7 @@
             let Interval = '1d';
             let Portfolio = document.getElementById('portfolio').value;
             if (Portfolio == 'Portfolio1') {
-                let Stock1 = 'BRK.B';
+                let Stock1 = 'BRK-B';
                 let Stock2 = 'T';
                 let Stock3 = 'VYM';
                 let Stock4 = 'PG';
@@ -18,27 +18,27 @@
                 let name = document.getElementById('alert');
                 name.innerHTML = "Please allow for upto 60 secs for the data to load - This Message will disappear once we finish loading everything";
                 
-            let response1 = await fetch("/callback3/getStock?data=" + Stock1 + "&period=" + Period + "&interval=" + Interval); 
-            let response2 = await fetch("/callback3/getStock?data=" + Stock2 + "&period=" + Period + "&interval=" + Interval);
-            let response3 = await fetch("/callback3/getStock?data=" + Stock3 + "&period=" + Period + "&interval=" + Interval);
-            let response4 = await fetch("/callback3/getStock?data=" + Stock4 + "&period=" + Period + "&interval=" + Interval);                
-            let response5 = await fetch("/callback3/getStock?data=" + Stock5 + "&period=" + Period + "&interval=" + Interval);
-            let response1_1 = await fetch("/callback3/getReturn?data=" + Stock1 + "&period=" + Period + "&interval=" + Interval);   
-            let response2_1 = await fetch("/callback3/getReturn?data=" + Stock2 + "&period=" + Period + "&interval=" + Interval);
-            let response3_1 = await fetch("/callback3/getReturn?data=" + Stock3 + "&period=" + Period + "&interval=" + Interval);
-            let response4_1 = await fetch("/callback3/getReturn?data=" + Stock4 + "&period=" + Period + "&interval=" + Interval);
-            let response5_1 = await fetch("/callback3/getReturn?data=" + Stock5 + "&period=" + Period + "&interval=" + Interval);
+            let response1 = await fetch("/callback/getPASR_MA?data=" + Stock1 + "&period=" + Period + "&interval=" + Interval); 
+            let response2 = await fetch("/callback/getPASR_MA?data=" + Stock2 + "&period=" + Period + "&interval=" + Interval);
+            let response3 = await fetch("/callback/getPASR_MA?data=" + Stock3 + "&period=" + Period + "&interval=" + Interval);
+            let response4 = await fetch("/callback/getPASR_MA?data=" + Stock4 + "&period=" + Period + "&interval=" + Interval);                
+            let response5 = await fetch("/callback/getPASR_MA?data=" + Stock5 + "&period=" + Period + "&interval=" + Interval);
+            let response1_1 = await fetch("/callback/TradingSignal?data=" + Stock1 + "&period=" + Period + "&interval=" + Interval);   
+            let response2_1 = await fetch("/callback/TradingSignal?data=" + Stock2 + "&period=" + Period + "&interval=" + Interval);
+            let response3_1 = await fetch("/callback/TradingSignal?data=" + Stock3 + "&period=" + Period + "&interval=" + Interval);
+            let response4_1 = await fetch("/callback/TradingSignal?data=" + Stock4 + "&period=" + Period + "&interval=" + Interval);
+            let response5_1 = await fetch("/callback/TradingSignal?data=" + Stock5 + "&period=" + Period + "&interval=" + Interval);
                 
             if (response1.ok) {
                 let chartJson1 = await response1.json();
                 if (response1.ok) {
                     if (Stock1 = "BRK.B") 
                     {
-                        response1 = await fetch("/callback3/getInfo?data=" + "BRK-B");
+                        response1 = await fetch("/callback/getInfo?data=" + "BRK-B");
                     }
                             else
                             {
-                                                    response1 = await fetch("/callback3/getInfo?data=" + Stock3);
+                                                    response1 = await fetch("/callback/getInfo?data=" + Stock3);
                             }
                     let infoJson1 = await response1.json();
                     info1(infoJson1);
@@ -47,7 +47,7 @@
                     alert("HTTP-Error: " + response1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response1.status + "on getStock");
+                alert("HTTP-Error: " + response1.status + "on getPASR_MA");
             }
                 
             
@@ -55,7 +55,7 @@
             if (response2.ok) {
                 let chartJson2 = await response2.json();
                 if (response2.ok) {
-                    response2 = await fetch("/callback3/getInfo?data=" + Stock2);
+                    response2 = await fetch("/callback/getInfo?data=" + Stock2);
                     let infoJson2 = await response2.json();
                     info2(infoJson2);
                     Plotly.newPlot('chart2', chartJson2, {});
@@ -63,66 +63,77 @@
                     alert("HTTP-Error: " + response2.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response2.status + "on getStock");
+                alert("HTTP-Error: " + response2.status + "on getPASR_MA");
             }
             
             if (response1_1.ok) {
-                let chartJson1_1 = await response1_1.json();
+                let chartJson1_1 = await response1_1.text();
                 if (response1_1.ok) {
-                    Plotly.newPlot('chart-return1', chartJson1_1, {});
+                    //Plotly.newPlot('chart-return1', chartJson1_1, {});
+                    let tradesignal_name = document.getElementById('chart-return1');
+                    tradesignal_name.innerHTML = chartJson1_1;
                 } else {
                     alert("HTTP-Error: " + response1_1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response1_1.status + "on getStock");
+                alert("HTTP-Error: " + response1_1.status + "on getPASR_MA");
             }        
             if (response2_1.ok) {
-                let chartJson2_1 = await response2_1.json();
+                let chartJson2_1 = await response2_1.text();
                 if (response1_1.ok) {
-                    Plotly.newPlot('chart-return2', chartJson2_1, {});
+                    //Plotly.newPlot('chart-return2', chartJson2_1, {});
+                    let tradesignal_name = document.getElementById('chart-return2');
+                    tradesignal_name.innerHTML = chartJson2_1;
+                    
                 } else {
                     alert("HTTP-Error: " + response2_1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response2_1.status + "on getStock");
+                alert("HTTP-Error: " + response2_1.status + "on getPASR_MA");
             }
                 
             if (response3_1.ok) {
-                let chartJson3_1 = await response3_1.json();
+                let chartJson3_1 = await response3_1.text();
                 if (response3_1.ok) {
-                    Plotly.newPlot('chart-return3', chartJson3_1, {});
+                    //Plotly.newPlot('chart-return3', chartJson3_1, {});
+                    let tradesignal_name = document.getElementById('chart-return3');
+                    tradesignal_name.innerHTML = chartJson3_1;                    
                 } else {
                     alert("HTTP-Error: " + response3_1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response3_1.status + "on getStock");
+                alert("HTTP-Error: " + response3_1.status + "on getPASR_MA");
             }  
 
             if (response4_1.ok) {
-                let chartJson4_1 = await response4_1.json();
+                let chartJson4_1 = await response4_1.text();
                 if (response4_1.ok) {
-                    Plotly.newPlot('chart-return4', chartJson4_1, {});
+                    //Plotly.newPlot('chart-return4', chartJson4_1, {});
+                    let tradesignal_name = document.getElementById('chart-return4');
+                    tradesignal_name.innerHTML = chartJson4_1;                      
                 } else {
                     alert("HTTP-Error: " + response4_1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response4_1.status + "on getStock");
+                alert("HTTP-Error: " + response4_1.status + "on getPASR_MA");
             }  
             if (response5_1.ok) {
-                let chartJson5_1 = await response5_1.json();
+                let chartJson5_1 = await response5_1.text();
                 if (response5_1.ok) {
-                    Plotly.newPlot('chart-return5', chartJson5_1, {});
+                    //Plotly.newPlot('chart-return5', chartJson5_1, {});
+                    let tradesignal_name = document.getElementById('chart-return5');
+                    tradesignal_name.innerHTML = chartJson5_1;                      
                 } else {
                     alert("HTTP-Error: " + response5_1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response5_1.status + "on getStock");
+                alert("HTTP-Error: " + response5_1.status + "on getPASR_MA");
             }                 
                 
             if (response3.ok) {
                 let chartJson3 = await response3.json();
                 if (response3.ok) {
-                    response3 = await fetch("/callback3/getInfo?data=" + Stock3);
+                    response3 = await fetch("/callback/getInfo?data=" + Stock3);
                     let infoJson3 = await response3.json();
                     info3(infoJson3);
                     Plotly.newPlot('chart3', chartJson3, {});
@@ -130,14 +141,14 @@
                     alert("HTTP-Error: " + response3.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response3.status + "on getStock");
+                alert("HTTP-Error: " + response3.status + "on getPASR_MA");
             }
             
       
              if (response4.ok) {
                 let chartJson4 = await response4.json();
                 if (response4.ok) {
-                    response4 = await fetch("/callback3/getInfo?data=" + Stock4);
+                    response4 = await fetch("/callback/getInfo?data=" + Stock4);
                     let infoJson4 = await response4.json();
                     info4(infoJson4);
                     Plotly.newPlot('chart4', chartJson4, {});
@@ -145,14 +156,14 @@
                     alert("HTTP-Error: " + response4.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response4.status + "on getStock");
+                alert("HTTP-Error: " + response4.status + "on getPASR_MA");
             }
   
                 
             if (response5.ok) {
                 let chartJson5 = await response5.json();
                 if (response5.ok) {
-                    response5 = await fetch("/callback3/getInfo?data=" + Stock5);
+                    response5 = await fetch("/callback/getInfo?data=" + Stock5);
                     let infoJson5 = await response5.json();
                     info5(infoJson5);
                     Plotly.newPlot('chart5', chartJson5, {});
@@ -160,7 +171,7 @@
                     alert("HTTP-Error: " + response5.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response5.status + "on getStock");
+                alert("HTTP-Error: " + response5.status + "on getPASR_MA");
             }
                 
        
@@ -170,7 +181,7 @@
             if (Portfolio == 'Portfolio2') {
                 let Stock1 = 'VOO';
                 let Stock2 = 'MSFT';
-                let Stock3 = 'BRK.B';
+                let Stock3 = 'BRK-B';
                 let Stock4 = 'VYM';
                 let Stock5 = 'U';  
                 let pageTitle = document.getElementById('portfolioType');
@@ -178,20 +189,20 @@
                 let name = document.getElementById('alert');
                 name.innerHTML = "Please allow for upto 60 secs for the data to load - This Message will disappear once we finish loading everything";
                 
-            let response1 = await fetch("/callback3/getStock?data=" + Stock1 + "&period=" + Period + "&interval=" + Interval);    
-            let response2 = await fetch("/callback3/getStock?data=" + Stock2 + "&period=" + Period + "&interval=" + Interval);
-            let response3 = await fetch("/callback3/getStock?data=" + Stock3 + "&period=" + Period + "&interval=" + Interval);
-            let response4 = await fetch("/callback3/getStock?data=" + Stock4 + "&period=" + Period + "&interval=" + Interval);                
-            let response5 = await fetch("/callback3/getStock?data=" + Stock5 + "&period=" + Period + "&interval=" + Interval);
-            let response1_1 = await fetch("/callback3/getReturn?data=" + Stock1 + "&period=" + Period + "&interval=" + Interval);   
-            let response2_1 = await fetch("/callback3/getReturn?data=" + Stock2 + "&period=" + Period + "&interval=" + Interval);
-            let response3_1 = await fetch("/callback3/getReturn?data=" + Stock3 + "&period=" + Period + "&interval=" + Interval);
-            let response4_1 = await fetch("/callback3/getReturn?data=" + Stock4 + "&period=" + Period + "&interval=" + Interval);
-            let response5_1 = await fetch("/callback3/getReturn?data=" + Stock5 + "&period=" + Period + "&interval=" + Interval);                
+            let response1 = await fetch("/callback/getPASR_MA?data=" + Stock1 + "&period=" + Period + "&interval=" + Interval);    
+            let response2 = await fetch("/callback/getPASR_MA?data=" + Stock2 + "&period=" + Period + "&interval=" + Interval);
+            let response3 = await fetch("/callback/getPASR_MA?data=" + Stock3 + "&period=" + Period + "&interval=" + Interval);
+            let response4 = await fetch("/callback/getPASR_MA?data=" + Stock4 + "&period=" + Period + "&interval=" + Interval);                
+            let response5 = await fetch("/callback/getPASR_MA?data=" + Stock5 + "&period=" + Period + "&interval=" + Interval);
+            let response1_1 = await fetch("/callback/TradingSignal?data=" + Stock1 + "&period=" + Period + "&interval=" + Interval);   
+            let response2_1 = await fetch("/callback/TradingSignal?data=" + Stock2 + "&period=" + Period + "&interval=" + Interval);
+            let response3_1 = await fetch("/callback/TradingSignal?data=" + Stock3 + "&period=" + Period + "&interval=" + Interval);
+            let response4_1 = await fetch("/callback/TradingSignal?data=" + Stock4 + "&period=" + Period + "&interval=" + Interval);
+            let response5_1 = await fetch("/callback/TradingSignal?data=" + Stock5 + "&period=" + Period + "&interval=" + Interval);                
             if (response1.ok) {
                 let chartJson1 = await response1.json();
                 if (response1.ok) {
-                    response1 = await fetch("/callback3/getInfo?data=" + Stock1);
+                    response1 = await fetch("/callback/getInfo?data=" + Stock1);
                     let infoJson1 = await response1.json();
                     info1(infoJson1);
                     Plotly.newPlot('chart1', chartJson1, {});
@@ -199,12 +210,12 @@
                     alert("HTTP-Error: " + response1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response1.status + "on getStock");
+                alert("HTTP-Error: " + response1.status + "on getPASR_MA");
             }
             if (response2.ok) {
                 let chartJson2 = await response2.json();
                 if (response2.ok) {
-                    response2 = await fetch("/callback3/getInfo?data=" + Stock2);
+                    response2 = await fetch("/callback/getInfo?data=" + Stock2);
                     let infoJson2 = await response2.json();
                     info2(infoJson2);
                     Plotly.newPlot('chart2', chartJson2, {});
@@ -212,7 +223,7 @@
                     alert("HTTP-Error: " + response2.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response2.status + "on getStock");
+                alert("HTTP-Error: " + response2.status + "on getPASR_MA");
             }
 
             if (response3.ok) {
@@ -220,11 +231,11 @@
                 if (response3.ok) {
                     if (Stock3 = "BRK.B") 
                     {
-                        response3 = await fetch("/callback3/getInfo?data=" + "BRK-B");
+                        response3 = await fetch("/callback/getInfo?data=" + "BRK-B");
                     }
                             else
                             {
-                                                    response3 = await fetch("/callback3/getInfo?data=" + Stock3);
+                                                    response3 = await fetch("/callback/getInfo?data=" + Stock3);
                             }
                     let infoJson3 = await response3.json();
                     info3(infoJson3);
@@ -233,13 +244,13 @@
                     alert("HTTP-Error: " + response3.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response3.status + "on getStock");
+                alert("HTTP-Error: " + response3.status + "on getPASR_MA");
             }
                 
                          if (response4.ok) {
                 let chartJson4 = await response4.json();
                 if (response4.ok) {
-                    response4 = await fetch("/callback3/getInfo?data=" + Stock4);
+                    response4 = await fetch("/callback/getInfo?data=" + Stock4);
                     let infoJson4 = await response4.json();
                     info4(infoJson4);
                     Plotly.newPlot('chart4', chartJson4, {});
@@ -247,13 +258,13 @@
                     alert("HTTP-Error: " + response4.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response4.status + "on getStock");
+                alert("HTTP-Error: " + response4.status + "on getPASR_MA");
             }
                 
             if (response5.ok) {
                 let chartJson5 = await response5.json();
                 if (response5.ok) {
-                    response5 = await fetch("/callback3/getInfo?data=" + Stock5);
+                    response5 = await fetch("/callback/getInfo?data=" + Stock5);
                     let infoJson5 = await response5.json();
                     info5(infoJson5);
                     Plotly.newPlot('chart5', chartJson5, {});
@@ -261,10 +272,11 @@
                     alert("HTTP-Error: " + response5.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response5.status + "on getStock");
+                alert("HTTP-Error: " + response5.status + "on getPASR_MA");
             }
                 
-                
+             /*   
+             
             if (response1_1.ok) {
                 let chartJson1_1 = await response1_1.json();
                 if (response1_1.ok) {
@@ -273,7 +285,7 @@
                     alert("HTTP-Error: " + response1_1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response1_1.status + "on getStock");
+                alert("HTTP-Error: " + response1_1.status + "on getPASR_MA");
             }        
             if (response2_1.ok) {
                 let chartJson2_1 = await response2_1.json();
@@ -283,7 +295,7 @@
                     alert("HTTP-Error: " + response2_1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response2_1.status + "on getStock");
+                alert("HTTP-Error: " + response2_1.status + "on getPASR_MA");
             }
                 
             if (response3_1.ok) {
@@ -294,7 +306,7 @@
                     alert("HTTP-Error: " + response3_1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response3_1.status + "on getStock");
+                alert("HTTP-Error: " + response3_1.status + "on getPASR_MA");
             }  
 
             if (response4_1.ok) {
@@ -305,7 +317,7 @@
                     alert("HTTP-Error: " + response4_1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response4_1.status + "on getStock");
+                alert("HTTP-Error: " + response4_1.status + "on getPASR_MA");
             }  
             if (response5_1.ok) {
                 let chartJson5_1 = await response5_1.json();
@@ -315,11 +327,74 @@
                     alert("HTTP-Error: " + response5_1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response5_1.status + "on getStock");
+                alert("HTTP-Error: " + response5_1.status + "on getPASR_MA");
             }                 
-                             
-                
+            */
+             if (response1_1.ok) {
+                let chartJson1_1 = await response1_1.text();
+                if (response1_1.ok) {
+                    //Plotly.newPlot('chart-return1', chartJson1_1, {});
+                    let tradesignal_name = document.getElementById('chart-return1');
+                    tradesignal_name.innerHTML = chartJson1_1;
+                } else {
+                    alert("HTTP-Error: " + response1_1.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response1_1.status + "on getPASR_MA");
+            }        
+            if (response2_1.ok) {
+                let chartJson2_1 = await response2_1.text();
+                if (response1_1.ok) {
+                    //Plotly.newPlot('chart-return2', chartJson2_1, {});
+                    let tradesignal_name = document.getElementById('chart-return2');
+                    tradesignal_name.innerHTML = chartJson2_1;
+                    
+                } else {
+                    alert("HTTP-Error: " + response2_1.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response2_1.status + "on getPASR_MA");
             }
+                
+            if (response3_1.ok) {
+                let chartJson3_1 = await response3_1.text();
+                if (response3_1.ok) {
+                    //Plotly.newPlot('chart-return3', chartJson3_1, {});
+                    let tradesignal_name = document.getElementById('chart-return3');
+                    tradesignal_name.innerHTML = chartJson3_1;                    
+                } else {
+                    alert("HTTP-Error: " + response3_1.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response3_1.status + "on getPASR_MA");
+            }  
+
+            if (response4_1.ok) {
+                let chartJson4_1 = await response4_1.text();
+                if (response4_1.ok) {
+                    //Plotly.newPlot('chart-return4', chartJson4_1, {});
+                    let tradesignal_name = document.getElementById('chart-return4');
+                    tradesignal_name.innerHTML = chartJson4_1;                      
+                } else {
+                    alert("HTTP-Error: " + response4_1.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response4_1.status + "on getPASR_MA");
+            }  
+            if (response5_1.ok) {
+                let chartJson5_1 = await response5_1.text();
+                if (response5_1.ok) {
+                    //Plotly.newPlot('chart-return5', chartJson5_1, {});
+                    let tradesignal_name = document.getElementById('chart-return5');
+                    tradesignal_name.innerHTML = chartJson5_1;                      
+                } else {
+                    alert("HTTP-Error: " + response5_1.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response5_1.status + "on getPASR_MA");
+            }   
+                
+            } 
 
             if (Portfolio == 'Portfolio3') {
                 let Stock1 = 'STNE';
@@ -332,20 +407,20 @@
                 let name = document.getElementById('alert');
                 name.innerHTML = "Please allow for upto 60 secs for the data to load - This Message will disappear once we finish loading everything";
                 
-            let response1 = await fetch("/callback3/getStock?data=" + Stock1 + "&period=" + Period + "&interval=" + Interval);    
-            let response2 = await fetch("/callback3/getStock?data=" + Stock2 + "&period=" + Period + "&interval=" + Interval);
-            let response3 = await fetch("/callback3/getStock?data=" + Stock3 + "&period=" + Period + "&interval=" + Interval);
-            let response4 = await fetch("/callback3/getStock?data=" + Stock4 + "&period=" + Period + "&interval=" + Interval);                
-            let response5 = await fetch("/callback3/getStock?data=" + Stock5 + "&period=" + Period + "&interval=" + Interval);
-            let response1_1 = await fetch("/callback3/getReturn?data=" + Stock1 + "&period=" + Period + "&interval=" + Interval);   
-            let response2_1 = await fetch("/callback3/getReturn?data=" + Stock2 + "&period=" + Period + "&interval=" + Interval);
-            let response3_1 = await fetch("/callback3/getReturn?data=" + Stock3 + "&period=" + Period + "&interval=" + Interval);
-            let response4_1 = await fetch("/callback3/getReturn?data=" + Stock4 + "&period=" + Period + "&interval=" + Interval);
-            let response5_1 = await fetch("/callback3/getReturn?data=" + Stock5 + "&period=" + Period + "&interval=" + Interval);                
+            let response1 = await fetch("/callback/getPASR_MA?data=" + Stock1 + "&period=" + Period + "&interval=" + Interval);    
+            let response2 = await fetch("/callback/getPASR_MA?data=" + Stock2 + "&period=" + Period + "&interval=" + Interval);
+            let response3 = await fetch("/callback/getPASR_MA?data=" + Stock3 + "&period=" + Period + "&interval=" + Interval);
+            let response4 = await fetch("/callback/getPASR_MA?data=" + Stock4 + "&period=" + Period + "&interval=" + Interval);                
+            let response5 = await fetch("/callback/getPASR_MA?data=" + Stock5 + "&period=" + Period + "&interval=" + Interval);
+            let response1_1 = await fetch("/callback/TradingSignal?data=" + Stock1 + "&period=" + Period + "&interval=" + Interval);   
+            let response2_1 = await fetch("/callback/TradingSignal?data=" + Stock2 + "&period=" + Period + "&interval=" + Interval);
+            let response3_1 = await fetch("/callback/TradingSignal?data=" + Stock3 + "&period=" + Period + "&interval=" + Interval);
+            let response4_1 = await fetch("/callback/TradingSignal?data=" + Stock4 + "&period=" + Period + "&interval=" + Interval);
+            let response5_1 = await fetch("/callback/TradingSignal?data=" + Stock5 + "&period=" + Period + "&interval=" + Interval);                
             if (response1.ok) {
                 let chartJson1 = await response1.json();
                 if (response1.ok) {
-                    response1 = await fetch("/callback3/getInfo?data=" + Stock1);
+                    response1 = await fetch("/callback/getInfo?data=" + Stock1);
                     let infoJson1 = await response1.json();
                     info1(infoJson1);
                     Plotly.newPlot('chart1', chartJson1, {});
@@ -353,12 +428,12 @@
                     alert("HTTP-Error: " + response1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response1.status + "on getStock");
+                alert("HTTP-Error: " + response1.status + "on getPASR_MA");
             }
             if (response2.ok) {
                 let chartJson2 = await response2.json();
                 if (response2.ok) {
-                    response2 = await fetch("/callback3/getInfo?data=" + Stock2);
+                    response2 = await fetch("/callback/getInfo?data=" + Stock2);
                     let infoJson2 = await response2.json();
                     info2(infoJson2);
                     Plotly.newPlot('chart2', chartJson2, {});
@@ -366,13 +441,13 @@
                     alert("HTTP-Error: " + response2.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response2.status + "on getStock");
+                alert("HTTP-Error: " + response2.status + "on getPASR_MA");
             }
 
             if (response3.ok) {
                 let chartJson3 = await response3.json();
                 if (response3.ok) {
-                    response3 = await fetch("/callback3/getInfo?data=" + Stock3);
+                    response3 = await fetch("/callback/getInfo?data=" + Stock3);
                     let infoJson3 = await response3.json();
                     info3(infoJson3);
                     Plotly.newPlot('chart3', chartJson3, {});
@@ -380,13 +455,13 @@
                     alert("HTTP-Error: " + response3.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response3.status + "on getStock");
+                alert("HTTP-Error: " + response3.status + "on getPASR_MA");
             }
                 
                 if (response4.ok) {
                 let chartJson4 = await response4.json();
                 if (response4.ok) {
-                    response4 = await fetch("/callback3/getInfo?data=" + Stock4);
+                    response4 = await fetch("/callback/getInfo?data=" + Stock4);
                     let infoJson4 = await response4.json();
                     info4(infoJson4);
                     Plotly.newPlot('chart4', chartJson4, {});
@@ -394,13 +469,13 @@
                     alert("HTTP-Error: " + response4.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response4.status + "on getStock");
+                alert("HTTP-Error: " + response4.status + "on getPASR_MA");
             }
                 
             if (response5.ok) {
                 let chartJson5 = await response5.json();
                 if (response5.ok) {
-                    response5 = await fetch("/callback3/getInfo?data=" + Stock5);
+                    response5 = await fetch("/callback/getInfo?data=" + Stock5);
                     let infoJson5 = await response5.json();
                     info5(infoJson5);
                     Plotly.newPlot('chart5', chartJson5, {});
@@ -408,9 +483,10 @@
                     alert("HTTP-Error: " + response5.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response5.status + "on getStock");
+                alert("HTTP-Error: " + response5.status + "on getPASR_MA");
             } 
-                
+               
+                /*
                             if (response1_1.ok) {
                 let chartJson1_1 = await response1_1.json();
                 if (response1_1.ok) {
@@ -419,7 +495,7 @@
                     alert("HTTP-Error: " + response1_1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response1_1.status + "on getStock");
+                alert("HTTP-Error: " + response1_1.status + "on getPASR_MA");
             }        
             if (response2_1.ok) {
                 let chartJson2_1 = await response2_1.json();
@@ -429,7 +505,7 @@
                     alert("HTTP-Error: " + response2_1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response2_1.status + "on getStock");
+                alert("HTTP-Error: " + response2_1.status + "on getPASR_MA");
             }
                 
             if (response3_1.ok) {
@@ -440,7 +516,7 @@
                     alert("HTTP-Error: " + response3_1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response3_1.status + "on getStock");
+                alert("HTTP-Error: " + response3_1.status + "on getPASR_MA");
             }  
 
             if (response4_1.ok) {
@@ -451,7 +527,7 @@
                     alert("HTTP-Error: " + response4_1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response4_1.status + "on getStock");
+                alert("HTTP-Error: " + response4_1.status + "on getPASR_MA");
             }  
             if (response5_1.ok) {
                 let chartJson5_1 = await response5_1.json();
@@ -461,13 +537,78 @@
                     alert("HTTP-Error: " + response5_1.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response5_1.status + "on getStock");
+                alert("HTTP-Error: " + response5_1.status + "on getPASR_MA");
             }                 
              
                 
             }
             
+        */
+                
+                 if (response1_1.ok) {
+                let chartJson1_1 = await response1_1.text();
+                if (response1_1.ok) {
+                    //Plotly.newPlot('chart-return1', chartJson1_1, {});
+                    let tradesignal_name = document.getElementById('chart-return1');
+                    tradesignal_name.innerHTML = chartJson1_1;
+                } else {
+                    alert("HTTP-Error: " + response1_1.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response1_1.status + "on getPASR_MA");
+            }        
+            if (response2_1.ok) {
+                let chartJson2_1 = await response2_1.text();
+                if (response1_1.ok) {
+                    //Plotly.newPlot('chart-return2', chartJson2_1, {});
+                    let tradesignal_name = document.getElementById('chart-return2');
+                    tradesignal_name.innerHTML = chartJson2_1;
+                    
+                } else {
+                    alert("HTTP-Error: " + response2_1.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response2_1.status + "on getPASR_MA");
+            }
+                
+            if (response3_1.ok) {
+                let chartJson3_1 = await response3_1.text();
+                if (response3_1.ok) {
+                    //Plotly.newPlot('chart-return3', chartJson3_1, {});
+                    let tradesignal_name = document.getElementById('chart-return3');
+                    tradesignal_name.innerHTML = chartJson3_1;                    
+                } else {
+                    alert("HTTP-Error: " + response3_1.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response3_1.status + "on getPASR_MA");
+            }  
 
+            if (response4_1.ok) {
+                let chartJson4_1 = await response4_1.text();
+                if (response4_1.ok) {
+                    //Plotly.newPlot('chart-return4', chartJson4_1, {});
+                    let tradesignal_name = document.getElementById('chart-return4');
+                    tradesignal_name.innerHTML = chartJson4_1;                      
+                } else {
+                    alert("HTTP-Error: " + response4_1.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response4_1.status + "on getPASR_MA");
+            }  
+            if (response5_1.ok) {
+                let chartJson5_1 = await response5_1.text();
+                if (response5_1.ok) {
+                    //Plotly.newPlot('chart-return5', chartJson5_1, {});
+                    let tradesignal_name = document.getElementById('chart-return5');
+                    tradesignal_name.innerHTML = chartJson5_1;                      
+                } else {
+                    alert("HTTP-Error: " + response5_1.status + "on getInfo");
+                }
+            } else {
+                alert("HTTP-Error: " + response5_1.status + "on getPASR_MA");
+            }   
+            }
             
         }
         
@@ -596,11 +737,11 @@
             let Stock = document.getElementById('stock').value;
             let Period = document.getElementById('period').value;
             let Interval = document.getElementById('interval').value;
-            let response = await fetch("/callback3/getStock?data=" + Stock + "&period=" + Period + "&interval=" + Interval);
+            let response = await fetch("/callback/getPASR_MA?data=" + Stock + "&period=" + Period + "&interval=" + Interval);
             if (response.ok) {
                 let chartJson = await response.json();
                 if (response.ok) {
-                    response = await fetch("/callback3/getInfo?data=" + Stock);
+                    response = await fetch("/callback/getInfo?data=" + Stock);
                     let infoJson = await response.json();
                     info(infoJson);
                     Plotly.newPlot('chart', chartJson, {});
@@ -608,7 +749,7 @@
                     alert("HTTP-Error: " + response.status + "on getInfo");
                 }
             } else {
-                alert("HTTP-Error: " + response.status + "on getStock");
+                alert("HTTP-Error: " + response.status + "on getPASR_MA");
             }
         }
         function info(json) {
