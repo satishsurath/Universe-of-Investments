@@ -19,12 +19,14 @@
 The Parabolic SAR indicator, is used to determine trend of a stock and potential reversals in price. The indicator uses a trailing stop and reverse method , to identify suitable exit and entry points. The parabolic SAR indicator appears on a chart as a series of dots, either above or below an asset's price, depending on the direction the price is moving. A dot is placed below the price when it is trending upward, and above the price when it is trending downward. The dots above the candle act as dynamic moving resistance price points while the dots above the candle act as dynamic moving support. An Accelaration factor is also used in the calculation of the PSAR which starts at 0.02 and increases by 0.02 up to a maximum of 0.2 
 
 RPSAR=Prior PSAR + [Prior AF(Prior EP-Prior PSAR)]
+
 FPSAR=Prior PSAR − [Prior AF(Prior PSAR-Prior EP)]
+
 where:
-RPSAR = Rising PSAR
-AF = Acceleration Factor, it starts at 0.02 and increases by 0.02, up to a maximum of 0.2, each time the extreme point makes a new low (falling SAR) or high(rising SAR)
-FPSAR = Falling PSAR
-EP = Extreme Point, the lowest low in the current downtrend(falling SAR)or the highest high in the current uptrend(rising SAR)
+- RPSAR = Rising PSAR
+- AF = Acceleration Factor, it starts at 0.02 and increases by 0.02, up to a maximum of 0.2, each time the extreme point makes a new low (falling SAR) or high(rising SAR)
+- FPSAR = Falling PSAR
+- EP = Extreme Point, the lowest low in the current downtrend(falling SAR)or the highest high in the current uptrend(rising SAR)
 
 
 ## References:
